@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Open+Sans:wght@400;600&display=swap');
+
+body {
+    margin: 0;
+    background: #ddd;
+}
+
+/* PÁGINA A4 */
+.page {
+    width: 210mm;
+    height: 297mm;
+    background: #fff;
+    margin: 20px auto;
+    padding: 15mm;
+    box-sizing: border-box;
+    page-break-after: always;
+}
+
+/* HEADER */
+.header {
+    border-bottom: 2px solid #6f7f6f;
+    margin-bottom: 10px;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-left,
+.logo-right {
+    width: 80px;
+    height: 80px;
+    border: 1px dashed #ccc;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.title-area {
+    text-align: center;
+    flex: 1;
+}
+
+.title-area h1 {
+    font-family: 'Libre Baskerville', serif;
+    color: #6f7f6f;
+    margin: 0;
+    font-size: 32px;
+}
+
+.title-area h2 {
+    margin: 0;
+    font-size: 14px;
+    color: #888;
+}
+
+.title-area p {
+    margin: 2px 0;
+    font-size: 11px;
+}
+
+.subtitle {
+    text-align: center;
+    font-size: 18px;
+    margin: 5px 0;
+    color: #6f7f6f;
+}
+
+/* COLUNAS */
+.two-columns {
+    column-count: 2;
+    column-gap: 20px;
+}
+
+/* SEÇÕES */
+section {
+    break-inside: avoid;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    color: #6f7f6f;
+    border-bottom: 1px solid #6f7f6f;
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+/* TEXTO */
+p {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 11px;
+    line-height: 1.25;
+    text-align: justify;
+    margin: 3px 0;
+}
+
+/* MARCAÇÕES */
+.cp {
+    color: #6f7f6f;
+    font-weight: bold;
+}
+
+.t, .r {
+    font-weight: bold;
+}
+
+/* RODAPÉ */
+.footer {
+    border-top: 1px solid #ccc;
+    font-size: 10px;
+    margin-top: 10px;
+}
