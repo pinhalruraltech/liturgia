@@ -4,145 +4,104 @@
 <meta charset="UTF-8">
 <title>Igreja em Oração</title>
 
-<style>
-body {
-    margin: 0;
-    background: #eee;
-    font-family: Arial, sans-serif;
-}
-
-.page {
-    width: 210mm;
-    height: 297mm;
-    background: white;
-    margin: 20px auto;
-    padding: 15mm;
-    box-sizing: border-box;
-    page-break-after: always;
-}
-
-.header {
-    text-align: center;
-    border-bottom: 1px solid #5a6f5c;
-    margin-bottom: 10px;
-    padding-bottom: 10px;
-}
-
-.header h1 {
-    margin: 0;
-    color: #5a6f5c;
-}
-
-.logo {
-    border: 1px dashed #ccc;
-    height: 40px;
-    margin-top: 5px;
-}
-
-.columns {
-    column-count: 2;
-    column-gap: 20px;
-    text-align: justify;
-    font-size: 11px;
-    line-height: 1.2;
-}
-
-.section {
-    break-inside: avoid;
-    margin-bottom: 10px;
-}
-
-.title {
-    font-weight: bold;
-    color: #5a6f5c;
-    border-bottom: 1px solid #5a6f5c;
-    margin-bottom: 5px;
-}
-
-.cp { color: #5a6f5c; font-weight: bold; }
-.t, .r { font-weight: bold; }
-
-.footer {
-    font-size: 10px;
-    margin-top: 10px;
-    border-top: 1px solid #ccc;
-}
-</style>
-
+<link rel="stylesheet" href="css/folheto.css">
 </head>
 
 <body>
 
 <!-- PÁGINA 1 -->
 <div class="page">
-    <div class="header">
-        <h1>Igreja em Oração</h1>
-        <div>Data • Ano Litúrgico • Cor</div>
-        <div class="logo">LOGO</div>
-    </div>
 
-    <div class="columns">
-        <div class="section">
-            <div class="title">RITOS INICIAIS</div>
+    <header class="header">
+        <div class="header-top">
+            <div class="logo-left">LOGO</div>
+
+            <div class="title-area">
+                <h1>Igreja em Oração</h1>
+                <h2>Semanário litúrgico-catequético</h2>
+                <p>Data • Ano “A” • Cor litúrgica: verde</p>
+            </div>
+
+            <div class="logo-right">LOGO</div>
+        </div>
+
+        <h3 class="subtitle">32º Domingo do Tempo Comum</h3>
+    </header>
+
+    <div class="content two-columns">
+
+        <section>
+            <h4>RITOS INICIAIS</h4>
+
             <p><span class="cp">CP.</span> Em nome do Pai...</p>
             <p><span class="r">R.</span> Amém.</p>
-        </div>
+        </section>
 
-        <div class="section">
-            <div class="title">ATO PENITENCIAL</div>
-            <p><span class="cp">CP.</span> Senhor, tende piedade...</p>
-        </div>
+        <section>
+            <h4>ATO PENITENCIAL</h4>
+
+            <p><span class="cp">CP.</span> Senhor Jesus...</p>
+        </section>
+
     </div>
 </div>
 
 <!-- PÁGINA 2 -->
 <div class="page">
-    <div class="columns">
-        <div class="section">
-            <div class="title">PRIMEIRA LEITURA</div>
+    <div class="content two-columns">
+
+        <section>
+            <h4>PRIMEIRA LEITURA</h4>
             <p>Texto...</p>
-        </div>
+        </section>
 
-        <div class="section">
-            <div class="title">SALMO</div>
+        <section>
+            <h4>SALMO RESPONSORIAL</h4>
             <p>1. A minha alma...</p>
-        </div>
+        </section>
 
-        <div class="section">
-            <div class="title">EVANGELHO</div>
+        <section>
+            <h4>EVANGELHO</h4>
             <p>Naquele tempo...</p>
-        </div>
+        </section>
+
     </div>
 </div>
 
 <!-- PÁGINA 3 -->
 <div class="page">
-    <div class="columns">
-        <div class="section">
-            <div class="title">LITURGIA EUCARÍSTICA</div>
+    <div class="content two-columns">
+
+        <section>
+            <h4>LITURGIA EUCARÍSTICA</h4>
+
             <p><span class="cp">CP.</span> O Senhor esteja convosco...</p>
             <p><span class="t">T.</span> Ele está no meio de nós.</p>
-        </div>
+
+        </section>
+
     </div>
 </div>
 
 <!-- PÁGINA 4 -->
 <div class="page">
-    <div class="columns">
-        <div class="section">
-            <div class="title">RITOS FINAIS</div>
+    <div class="content two-columns">
+
+        <section>
+            <h4>RITOS FINAIS</h4>
             <p><span class="cp">CP.</span> O Senhor esteja convosco...</p>
-        </div>
+        </section>
 
-        <div class="section">
-            <div class="title">MEDITAÇÃO</div>
-            <p>Texto reflexivo...</p>
-        </div>
+        <section>
+            <h4>MEDITAÇÃO</h4>
+            <p>Texto final...</p>
+        </section>
+
     </div>
 
-    <div class="footer">
-        Rodapé / Créditos
-    </div>
+    <footer class="footer">
+        Rodapé CNBB
+    </footer>
 </div>
 
 </body>
