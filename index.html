@@ -10,7 +10,7 @@
 
 body {
     margin: 0;
-    background: #dcdcdc;
+    background: #d9d9d9;
 }
 
 /* PÁGINA */
@@ -19,27 +19,26 @@ body {
     height: 297mm;
     background: #fff;
     margin: 10px auto;
-    padding: 10mm;
+    padding: 10mm 10mm 12mm 10mm;
     box-sizing: border-box;
 }
 
 /* HEADER */
 .header {
-    border-bottom: 2px solid #8a9a8a;
-    padding-bottom: 6px;
-    margin-bottom: 8px;
+    border-bottom: 2px solid #5f6f5f;
+    margin-bottom: 6px;
 }
 
 .header-grid {
     display: grid;
-    grid-template-columns: 90px 1fr 90px;
+    grid-template-columns: 85px 1fr 85px;
     align-items: center;
 }
 
 .logo {
-    height: 70px;
+    height: 65px;
     border: 1px dashed #ccc;
-    font-size: 10px;
+    font-size: 9px;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -51,66 +50,75 @@ body {
 
 .title h1 {
     font-family: 'Libre Baskerville', serif;
-    font-size: 36px;
-    color: #7c8c7c;
+    font-size: 34px;
+    color: #5f6f5f;
     margin: 0;
 }
 
 .title h2 {
-    font-size: 14px;
+    font-size: 13px;
     margin: 0;
-    color: #777;
+    color: #666;
+    font-weight: 600;
 }
 
 .title p {
-    font-size: 11px;
+    font-size: 10px;
     margin: 2px 0;
 }
 
 .subtitle {
     text-align: center;
     font-weight: bold;
-    color: #7c8c7c;
-    font-size: 16px;
+    color: #5f6f5f;
+    font-size: 15px;
+    margin: 4px 0;
 }
 
-/* 🔥 3 COLUNAS */
+/* COLUNAS */
 .columns {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 12px;
+    grid-template-columns: 0.95fr 0.95fr 1.1fr;
+    gap: 10px;
 }
 
 /* SEÇÃO */
 .section {
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
-/* TÍTULO ESTILO CNBB */
+/* TÍTULOS */
 .section-title {
     font-family: 'Source Sans 3', sans-serif;
     font-weight: 700;
-    font-size: 12px;
-    color: #6f7f6f;
-    border-bottom: 1px solid #6f7f6f;
-    margin-bottom: 4px;
+    font-size: 11.5px;
+    color: #5f6f5f;
+    border-bottom: 1px solid #5f6f5f;
+    margin-bottom: 3px;
     text-transform: uppercase;
-    background: linear-gradient(to right, #e6efe6 60%, transparent);
-    padding: 2px 4px;
+    background: linear-gradient(to right, #e8efe8 60%, transparent);
+    padding: 2px 3px;
 }
 
 /* TEXTO */
 p {
     font-family: 'Source Sans 3', sans-serif;
-    font-size: 10px;
-    line-height: 1.15;
+    font-size: 9.6px;
+    line-height: 1.12;
     text-align: justify;
-    margin: 2px 0;
+    margin: 1.5px 0;
 }
 
-/* CORES INTERNAS */
+/* INSTRUÇÕES */
+.instrucao {
+    font-size: 9px;
+    color: #b0302a;
+    font-style: italic;
+}
+
+/* MARCAÇÕES */
 .cp {
-    color: #c0392b;
+    color: #b0302a;
     font-weight: bold;
 }
 
@@ -119,24 +127,32 @@ p {
 }
 
 .r {
+    color: #b0302a;
     font-weight: bold;
-    color: #c0392b;
 }
 
 .num {
-    color: #6f7f6f;
+    color: #5f6f5f;
     font-weight: bold;
 }
 
-/* DESTAQUES */
-.small {
+/* SUBTEXTO VERDE */
+.subverde {
+    color: #5f6f5f;
+    font-weight: bold;
+}
+
+/* INDENTAÇÃO SOMENTE TEXTO CORRIDO */
+.texto {
+    text-indent: 8px;
+}
+
+/* RODAPÉ */
+.footer {
+    margin-top: 6px;
+    border-top: 1px solid #ccc;
     font-size: 9px;
-    color: #999;
-}
-
-.green {
-    color: #6f7f6f;
-    font-weight: bold;
+    color: #666;
 }
 
 </style>
@@ -155,7 +171,7 @@ p {
         <div class="title">
             <h1>Igreja em Oração</h1>
             <h2>Semanário litúrgico-catequético</h2>
-            <p>12 de novembro de 2023 – Ano “A” – São Mateus – Cor: verde</p>
+            <p>12 de novembro de 2023 – Ano “A” – São Mateus – Cor litúrgica: verde</p>
         </div>
 
         <div class="logo">LOGO</div>
@@ -173,23 +189,23 @@ p {
     <div class="section">
         <div class="section-title">RITOS INICIAIS</div>
 
-        <p class="small">(De forma orante...)</p>
+        <p class="instrucao">(De forma orante, repetir-se algumas vezes)</p>
 
-        <p><span class="num">1.</span> <span class="r">R.</span> A ti, Senhor, meu pedido! Volta pra mim...</p>
+        <p><span class="r">R.</span> A ti, Senhor, meu pedido! Volta pra mim...</p>
 
-        <p><span class="num">1.</span> Ó Senhor, escuta a prece que te faço...</p>
-        <p><span class="num">2.</span> Lembro os dias do passado...</p>
-        <p><span class="num">3.</span> Vem, me ensina a fazer sempre...</p>
+        <p class="texto"><span class="num">1.</span> Ó Senhor, escuta a prece que te faço...</p>
+        <p class="texto"><span class="num">2.</span> Lembro os dias do passado...</p>
+        <p class="texto"><span class="num">3.</span> Vem, me ensina a fazer sempre tua vontade...</p>
     </div>
 
     <div class="section">
         <div class="section-title">SAUDAÇÃO</div>
 
-        <p><span class="cp">CP.</span> Em nome do Pai...</p>
+        <p><span class="cp">CP.</span> Em nome do Pai e do Filho...</p>
         <p><span class="t">T.</span> Amém.</p>
 
-        <p><span class="cp">CP.</span> A graça de nosso Senhor...</p>
-        <p><span class="t">T.</span> Bendito seja Deus...</p>
+        <p><span class="cp">CP.</span> A graça de nosso Senhor Jesus Cristo...</p>
+        <p><span class="t">T.</span> Bendito seja Deus que nos reuniu...</p>
     </div>
 
 </div>
@@ -200,7 +216,7 @@ p {
     <div class="section">
         <div class="section-title">4. ATO PENITENCIAL</div>
 
-        <p><span class="cp">CP.</span> O Senhor Jesus...</p>
+        <p><span class="cp">CP.</span> O Senhor Jesus, que nos convida...</p>
 
         <p><span class="t">T.</span> Confesso a Deus todo-poderoso...</p>
 
@@ -226,15 +242,19 @@ p {
     <div class="section">
         <div class="section-title">PRIMEIRA LEITURA</div>
 
-        <p><span class="green">Leitura do Livro da Sabedoria</span></p>
+        <p class="subverde">Leitura do Livro da Sabedoria</p>
 
-        <p>A sabedoria é resplandecente...</p>
-        <p>Ela é facilmente contemplada...</p>
-        <p>Quem por ela madruga...</p>
+        <p class="texto">A sabedoria é resplandecente e sempre viçosa...</p>
+        <p class="texto">Ela é facilmente contemplada por aqueles que a amam...</p>
+        <p class="texto">Quem por ela madruga não se cansará...</p>
     </div>
 
 </div>
 
+</div>
+
+<div class="footer">
+    Edições CNBB • Modelo adaptado
 </div>
 
 </div>
