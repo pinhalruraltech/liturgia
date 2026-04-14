@@ -4,119 +4,239 @@
 <meta charset="UTF-8">
 <title>Igreja em Oração</title>
 
-<link rel="stylesheet" href="css/folheto.css">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+body {
+    margin: 0;
+    background: #dcdcdc;
+}
+
+/* PÁGINA */
+.page {
+    width: 210mm;
+    height: 297mm;
+    background: #fff;
+    margin: 10px auto;
+    padding: 10mm;
+    box-sizing: border-box;
+}
+
+/* HEADER */
+.header {
+    border-bottom: 2px solid #8a9a8a;
+    padding-bottom: 6px;
+    margin-bottom: 8px;
+}
+
+.header-grid {
+    display: grid;
+    grid-template-columns: 90px 1fr 90px;
+    align-items: center;
+}
+
+.logo {
+    height: 70px;
+    border: 1px dashed #ccc;
+    font-size: 10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.title {
+    text-align: center;
+}
+
+.title h1 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 36px;
+    color: #7c8c7c;
+    margin: 0;
+}
+
+.title h2 {
+    font-size: 14px;
+    margin: 0;
+    color: #777;
+}
+
+.title p {
+    font-size: 11px;
+    margin: 2px 0;
+}
+
+.subtitle {
+    text-align: center;
+    font-weight: bold;
+    color: #7c8c7c;
+    font-size: 16px;
+}
+
+/* 🔥 3 COLUNAS */
+.columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+}
+
+/* SEÇÃO */
+.section {
+    margin-bottom: 8px;
+}
+
+/* TÍTULO ESTILO CNBB */
+.section-title {
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    color: #6f7f6f;
+    border-bottom: 1px solid #6f7f6f;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    background: linear-gradient(to right, #e6efe6 60%, transparent);
+    padding: 2px 4px;
+}
+
+/* TEXTO */
+p {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 10px;
+    line-height: 1.15;
+    text-align: justify;
+    margin: 2px 0;
+}
+
+/* CORES INTERNAS */
+.cp {
+    color: #c0392b;
+    font-weight: bold;
+}
+
+.t {
+    font-weight: bold;
+}
+
+.r {
+    font-weight: bold;
+    color: #c0392b;
+}
+
+.num {
+    color: #6f7f6f;
+    font-weight: bold;
+}
+
+/* DESTAQUES */
+.small {
+    font-size: 9px;
+    color: #999;
+}
+
+.green {
+    color: #6f7f6f;
+    font-weight: bold;
+}
+
+</style>
+
 </head>
 
 <body>
 
-<!-- PÁGINA 1 -->
 <div class="page">
 
-    <header class="header">
-        <div class="header-top">
-            <div class="logo-left">LOGO</div>
+<!-- HEADER -->
+<div class="header">
+    <div class="header-grid">
+        <div class="logo">CNBB</div>
 
-            <div class="title-area">
-                <h1>Igreja em Oração</h1>
-                <h2>Semanário litúrgico-catequético</h2>
-                <p>Data • Ano “A” • Cor litúrgica: verde</p>
-            </div>
-
-            <div class="logo-right">LOGO</div>
+        <div class="title">
+            <h1>Igreja em Oração</h1>
+            <h2>Semanário litúrgico-catequético</h2>
+            <p>12 de novembro de 2023 – Ano “A” – São Mateus – Cor: verde</p>
         </div>
 
-        <h3 class="subtitle">32º Domingo do Tempo Comum</h3>
-    </header>
-
-    <div class="content two-columns">
-
-        <section>
-    <h4>RITOS INICIAIS</h4>
-
-    <p><span class="num">1.</span> <span class="r">R.</span> A ti, Senhor...</p>
-
-    <p><span class="num">1.</span> Ó Senhor, escuta...</p>
-    <p><span class="num">2.</span> Lembro os dias...</p>
-
-</section>
-
-        <section>
-    <h4>4. ATO PENITENCIAL</h4>
-
-    <p><span class="cp">CP.</span> O Senhor Jesus...</p>
-
-    <p><span class="t">T.</span> Confesso a Deus...</p>
-
-    <p><span class="cp">CP.</span> Deus todo-poderoso...</p>
-
-    <p><span class="t">T.</span> Amém.</p>
-
-</section>
-
+        <div class="logo">LOGO</div>
     </div>
+
+    <div class="subtitle">32º Domingo do Tempo Comum</div>
 </div>
 
-<!-- PÁGINA 2 -->
-<div class="page">
-    <div class="content two-columns">
+<!-- CONTEÚDO -->
+<div class="columns">
 
-        <section>
-            <h4>PRIMEIRA LEITURA</h4>
-            <p>Texto...</p>
-        </section>
+<!-- COLUNA 1 -->
+<div>
 
-        <section class="salmo">
-    <h4>8. SALMO RESPONSORIAL</h4>
+    <div class="section">
+        <div class="section-title">RITOS INICIAIS</div>
 
-    <p><span class="r">R.</span> A minh’alma tem sede de vós...</p>
+        <p class="small">(De forma orante...)</p>
 
-    <p><span class="num">1.</span> Sois vós, ó Senhor...</p>
-    <p><span class="num">2.</span> Venho contemplar-vos...</p>
+        <p><span class="num">1.</span> <span class="r">R.</span> A ti, Senhor, meu pedido! Volta pra mim...</p>
 
-</section>
-
-        <section>
-            <h4>EVANGELHO</h4>
-            <p>Naquele tempo...</p>
-        </section>
-
+        <p><span class="num">1.</span> Ó Senhor, escuta a prece que te faço...</p>
+        <p><span class="num">2.</span> Lembro os dias do passado...</p>
+        <p><span class="num">3.</span> Vem, me ensina a fazer sempre...</p>
     </div>
+
+    <div class="section">
+        <div class="section-title">SAUDAÇÃO</div>
+
+        <p><span class="cp">CP.</span> Em nome do Pai...</p>
+        <p><span class="t">T.</span> Amém.</p>
+
+        <p><span class="cp">CP.</span> A graça de nosso Senhor...</p>
+        <p><span class="t">T.</span> Bendito seja Deus...</p>
+    </div>
+
 </div>
 
-<!-- PÁGINA 3 -->
-<div class="page">
-    <div class="content two-columns">
+<!-- COLUNA 2 -->
+<div>
 
-        <section>
-            <h4>LITURGIA EUCARÍSTICA</h4>
+    <div class="section">
+        <div class="section-title">4. ATO PENITENCIAL</div>
 
-            <p><span class="cp">CP.</span> O Senhor esteja convosco...</p>
-            <p><span class="t">T.</span> Ele está no meio de nós.</p>
+        <p><span class="cp">CP.</span> O Senhor Jesus...</p>
 
-        </section>
+        <p><span class="t">T.</span> Confesso a Deus todo-poderoso...</p>
 
+        <p><span class="cp">CP.</span> Deus todo-poderoso tenha compaixão...</p>
+
+        <p><span class="t">T.</span> Amém.</p>
+
+        <p><span class="cp">CP.</span> Senhor, tende piedade de nós.</p>
+        <p><span class="t">T.</span> Senhor, tende piedade de nós.</p>
     </div>
+
 </div>
 
-<!-- PÁGINA 4 -->
-<div class="page">
-    <div class="content two-columns">
+<!-- COLUNA 3 -->
+<div>
 
-        <section>
-            <h4>RITOS FINAIS</h4>
-            <p><span class="cp">CP.</span> O Senhor esteja convosco...</p>
-        </section>
+    <div class="section">
+        <div class="section-title">LITURGIA DA PALAVRA</div>
 
-        <section>
-            <h4>MEDITAÇÃO</h4>
-            <p>Texto final...</p>
-        </section>
-
+        <p>Irmãs e irmãos, iniciemos a Liturgia da Palavra...</p>
     </div>
 
-    <footer class="footer">
-        Rodapé CNBB
-    </footer>
+    <div class="section">
+        <div class="section-title">PRIMEIRA LEITURA</div>
+
+        <p><span class="green">Leitura do Livro da Sabedoria</span></p>
+
+        <p>A sabedoria é resplandecente...</p>
+        <p>Ela é facilmente contemplada...</p>
+        <p>Quem por ela madruga...</p>
+    </div>
+
+</div>
+
+</div>
+
 </div>
 
 </body>
