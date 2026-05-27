@@ -2,262 +2,912 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>Igreja em Oração</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Igreja em Oração – Editor</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
 <style>
 
+/* ===== EDITOR UI ===== */
+* { box-sizing: border-box; }
+
 body {
-    margin: 0;
-    background: #d9d9d9;
+  margin: 0;
+  background: #b0b0b0;
+  font-family: 'Source Sans 3', sans-serif;
 }
 
-/* PÁGINA */
+#toolbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: #2d3b2d;
+  color: #fff;
+  padding: 8px 16px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 13px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+#toolbar span.label {
+  font-weight: 700;
+  font-size: 14px;
+  color: #a8c8a8;
+  margin-right: 6px;
+}
+
+#toolbar button {
+  background: #4a6a4a;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 12px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background 0.2s;
+}
+
+#toolbar button:hover { background: #5f8f5f; }
+#toolbar button.primary { background: #b0302a; }
+#toolbar button.primary:hover { background: #d04040; }
+
+#toolbar select, #toolbar input[type=text] {
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid #5f8f5f;
+  background: #1e2e1e;
+  color: #fff;
+  font-size: 12px;
+}
+
+#edit-hint {
+  font-size: 11px;
+  color: #a8c8a8;
+  font-style: italic;
+}
+
+#pages-container {
+  margin-top: 52px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* ===== PÁGINA ===== */
 .page {
-    width: 210mm;
-    height: 297mm;
-    background: #fff;
-    margin: 10px auto;
-    padding: 10mm 10mm 12mm 10mm;
-    box-sizing: border-box;
+  width: 210mm;
+  min-height: 297mm;
+  background: #fff;
+  padding: 10mm 10mm 12mm 10mm;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.35);
 }
 
-/* HEADER */
+/* ===== HEADER ===== */
 .header {
-    border-bottom: 2px solid #5f6f5f;
-    margin-bottom: 6px;
+  border-bottom: 2.5px solid #5f6f5f;
+  margin-bottom: 5px;
+  padding-bottom: 3px;
 }
 
 .header-grid {
-    display: grid;
-    grid-template-columns: 85px 1fr 85px;
-    align-items: center;
+  display: grid;
+  grid-template-columns: 80px 1fr 80px;
+  align-items: center;
+  gap: 5px;
 }
 
-.logo {
-    height: 65px;
-    border: 1px dashed #ccc;
-    font-size: 9px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+.logo-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.title {
-    text-align: center;
+.logo-box img {
+  max-height: 65px;
+  max-width: 80px;
+  object-fit: contain;
 }
 
-.title h1 {
-    font-family: 'Libre Baskerville', serif;
-    font-size: 34px;
-    color: #5f6f5f;
-    margin: 0;
+.logo-placeholder {
+  height: 65px;
+  width: 80px;
+  border: 1px dashed #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  color: #aaa;
+  cursor: pointer;
 }
 
-.title h2 {
-    font-size: 13px;
-    margin: 0;
-    color: #666;
-    font-weight: 600;
+.title-center {
+  text-align: center;
 }
 
-.title p {
-    font-size: 10px;
-    margin: 2px 0;
+.title-center h1 {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 34px;
+  color: #3d5c3d;
+  margin: 0;
+  line-height: 1.1;
 }
 
-.subtitle {
-    text-align: center;
-    font-weight: bold;
-    color: #5f6f5f;
-    font-size: 15px;
-    margin: 4px 0;
+.title-center .subtitle-pub {
+  font-size: 13px;
+  margin: 1px 0;
+  color: #555;
+  font-weight: 600;
+  font-family: 'Source Sans 3', sans-serif;
 }
 
-/* COLUNAS */
-.columns {
-    display: grid;
-    grid-template-columns: 0.95fr 0.95fr 1.1fr;
-    gap: 10px;
+.title-center .date-line {
+  font-size: 10px;
+  margin: 2px 0 0;
+  color: #444;
+  font-family: 'Source Sans 3', sans-serif;
 }
 
-/* SEÇÃO */
+.domingo-title {
+  text-align: center;
+  font-weight: 700;
+  font-size: 15px;
+  color: #3d5c3d;
+  margin: 4px 0 5px;
+  font-family: 'Source Sans 3', sans-serif;
+}
+
+/* ===== COLUNAS ===== */
+.cols3 {
+  display: grid;
+  grid-template-columns: 0.93fr 0.93fr 1.14fr;
+  gap: 9px;
+}
+
+.cols2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+}
+
+/* ===== SECTION ===== */
 .section {
-    margin-bottom: 6px;
+  margin-bottom: 5px;
 }
 
-/* TÍTULOS */
 .section-title {
-    font-family: 'Source Sans 3', sans-serif;
-    font-weight: 700;
-    font-size: 11.5px;
-    color: #5f6f5f;
-    border-bottom: 1px solid #5f6f5f;
-    margin-bottom: 3px;
-    text-transform: uppercase;
-    background: linear-gradient(to right, #e8efe8 60%, transparent);
-    padding: 2px 3px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 700;
+  font-size: 10.5px;
+  color: #3d5c3d;
+  border-bottom: 1.2px solid #5f7f5f;
+  margin-bottom: 3px;
+  text-transform: uppercase;
+  background: linear-gradient(to right, #e4ede4 55%, transparent);
+  padding: 2px 4px 1px;
+  letter-spacing: 0.02em;
 }
 
-/* TEXTO */
+/* ===== TEXTO ===== */
 p {
-    font-family: 'Source Sans 3', sans-serif;
-    font-size: 9.6px;
-    line-height: 1.12;
-    text-align: justify;
-    margin: 1.5px 0;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 9.3px;
+  line-height: 1.25;
+  margin: 1.5px 0;
+  text-align: justify;
 }
 
-/* INSTRUÇÕES */
 .instrucao {
-    font-size: 9px;
-    color: #b0302a;
-    font-style: italic;
+  font-size: 8.8px;
+  color: #b0302a;
+  font-style: italic;
 }
 
-/* MARCAÇÕES */
-.cp {
-    color: #b0302a;
-    font-weight: bold;
+.cp { color: #b0302a; font-weight: 700; }
+.t  { font-weight: 700; }
+.r  { color: #b0302a; font-weight: 700; }
+.l  { font-weight: 700; color: #3d5c3d; }
+.cc { font-weight: 700; color: #3d5c3d; }
+.num { color: #3d5c3d; font-weight: 700; }
+.subverde { color: #3d5c3d; font-weight: 700; }
+.bold { font-weight: 700; }
+.italic { font-style: italic; }
+.texto { text-indent: 7px; }
+.small-ref { font-size: 8px; color: #666; font-style: italic; }
+.autor { font-size: 8.5px; color: #555; font-style: italic; margin-top: 1px; }
+
+/* Destaque colchetes */
+.brackets { font-style: italic; font-size: 8.8px; color: #555; }
+
+/* ===== RODAPÉ ===== */
+.footer-page {
+  margin-top: 6px;
+  border-top: 1px solid #ccc;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-size: 8px;
+  color: #666;
+  padding-top: 3px;
 }
 
-.t {
-    font-weight: bold;
+.footer-page .page-num {
+  font-weight: 700;
+  font-size: 11px;
+  color: #3d5c3d;
 }
 
-.r {
-    color: #b0302a;
-    font-weight: bold;
+/* ===== LEITURAS DA SEMANA (rodapé p4) ===== */
+.leituras-semana {
+  font-size: 8px;
+  color: #3d5c3d;
+  margin-top: 5px;
+  border-top: 1px solid #9ab09a;
+  padding-top: 3px;
 }
 
-.num {
-    color: #5f6f5f;
-    font-weight: bold;
+.leituras-semana .ls-title {
+  font-weight: 700;
+  font-size: 8.5px;
+  color: #3d5c3d;
+  margin-bottom: 2px;
 }
 
-/* SUBTEXTO VERDE */
-.subverde {
-    color: #5f6f5f;
-    font-weight: bold;
+.leituras-semana p {
+  font-size: 8px;
+  color: #333;
+  margin: 1px 0;
+  text-align: left;
 }
 
-/* INDENTAÇÃO SOMENTE TEXTO CORRIDO */
-.texto {
-    text-indent: 8px;
+/* ===== CRÉDITOS ===== */
+.credits-bar {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  font-size: 7.5px;
+  color: #444;
+  border-top: 1px solid #ccc;
+  margin-top: 4px;
+  padding-top: 3px;
 }
 
-/* RODAPÉ */
-.footer {
-    margin-top: 6px;
-    border-top: 1px solid #ccc;
-    font-size: 9px;
-    color: #666;
+.credits-bar p { font-size: 7.5px; margin: 0.8px 0; text-align: left; }
+
+/* ===== RODAPÉ CNBB ===== */
+.cnbb-footer {
+  text-align: right;
+  font-size: 7.5px;
+  color: #444;
+  margin-top: 3px;
+}
+
+/* ===== IMAGEM ILUSTRAÇÃO ===== */
+.illus-img {
+  width: 100%;
+  max-height: 70px;
+  object-fit: contain;
+  display: block;
+  margin: 3px auto;
+}
+
+/* ===== NOTA MUSICAL (placeholder) ===== */
+.nota-musical {
+  border: 1px solid #ccc;
+  background: #f5f5f5;
+  text-align: center;
+  font-size: 8px;
+  color: #888;
+  padding: 4px;
+  margin: 3px 0;
+}
+
+/* ===== MEDITANDO BOX ===== */
+.medita-box {
+  border: none;
+}
+
+.medita-title {
+  font-weight: 700;
+  font-size: 10px;
+  text-align: center;
+  color: #222;
+  margin-bottom: 1px;
+}
+
+.medita-autor {
+  text-align: center;
+  font-size: 9px;
+  font-style: italic;
+  color: #555;
+  margin-bottom: 3px;
+}
+
+/* ===== CNBB BRASIL BOX ===== */
+.cnbb-brasil-box {
+  border-top: 1px solid #9ab09a;
+  padding-top: 4px;
+  margin-top: 6px;
+}
+
+.cnbb-brasil-title {
+  font-weight: 700;
+  font-size: 10px;
+  text-align: center;
+  color: #222;
+  margin-bottom: 0;
+}
+
+.cnbb-brasil-sub {
+  text-align: center;
+  font-size: 9px;
+  color: #555;
+  margin-bottom: 3px;
+  font-style: italic;
+}
+
+.dom-jose {
+  text-align: right;
+  font-weight: 700;
+  font-size: 10px;
+  margin-top: 4px;
+}
+
+.dom-jose-cargo {
+  text-align: right;
+  font-size: 9px;
+  color: #555;
+}
+
+/* ===== QR CODE ===== */
+.qr-row {
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+  margin-top: 3px;
+}
+
+.qr-text { flex: 1; }
+
+.qr-box {
+  width: 42px;
+  height: 42px;
+  border: 1px solid #ccc;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 7px;
+  color: #aaa;
+  background: #f5f5f5;
+}
+
+/* ===== SUGESTÕES BOX ===== */
+.sugestoes-title {
+  font-weight: 700;
+  font-size: 10.5px;
+  text-align: center;
+  border-bottom: 1px solid #5f7f5f;
+  margin-bottom: 3px;
+  padding-bottom: 2px;
+  color: #222;
+}
+
+/* ===== EDITABLE ===== */
+[contenteditable="true"] {
+  outline: none;
+  cursor: text;
+}
+
+[contenteditable="true"]:focus {
+  background: #fffde7;
+  border-radius: 2px;
+}
+
+body.edit-mode [contenteditable="true"]:hover {
+  background: #f0f7f0;
+  border-radius: 2px;
+}
+
+/* ===== PRINT ===== */
+@media print {
+  #toolbar { display: none !important; }
+  #pages-container { margin-top: 0; padding: 0; gap: 0; background: none; }
+  body { background: none; }
+  .page { box-shadow: none; margin: 0; page-break-after: always; }
 }
 
 </style>
-
 </head>
+<body class="edit-mode">
 
-<body>
+<!-- TOOLBAR -->
+<div id="toolbar">
+  <span class="label">⛪ Igreja em Oração – Editor</span>
+  <button onclick="document.execCommand('bold')"><b>N</b></button>
+  <button onclick="document.execCommand('italic')"><i>I</i></button>
+  <button onclick="window.print()" class="primary">🖨 Imprimir / PDF</button>
+  <span id="edit-hint">Clique em qualquer texto para editar</span>
+</div>
 
-<div class="page">
+<div id="pages-container">
 
-<!-- HEADER -->
-<div class="header">
+<!-- ============================================================ -->
+<!-- PÁGINA 1 -->
+<!-- ============================================================ -->
+<div class="page" id="page1">
+
+  <div class="header">
     <div class="header-grid">
-        <div class="logo">CNBB</div>
+      <div class="logo-box">
+        <div class="logo-placeholder" title="Clique para trocar logo CNBB">CNBB</div>
+      </div>
+      <div class="title-center">
+        <h1>Igreja em Oração</h1>
+        <div class="subtitle-pub" contenteditable="true">Semanário litúrgico-catequético</div>
+        <div class="date-line" contenteditable="true">12 de novembro de 2023 – Ano "A" – São Mateus – Cor litúrgica: verde</div>
+      </div>
+      <div class="logo-box">
+        <div class="logo-placeholder" title="Logo Edições CNBB">EDIÇÕES<br>CNBB</div>
+      </div>
+    </div>
+    <div class="domingo-title" contenteditable="true">32º Domingo do Tempo Comum</div>
+  </div>
 
-        <div class="title">
-            <h1>Igreja em Oração</h1>
-            <h2>Semanário litúrgico-catequético</h2>
-            <p>12 de novembro de 2023 – Ano “A” – São Mateus – Cor litúrgica: verde</p>
+  <div class="cols3">
+
+    <!-- COL 1 -->
+    <div>
+
+      <div class="section">
+        <div class="section-title">Ritos Iniciais</div>
+        <p class="subverde" contenteditable="true">Refrão Orante:</p>
+        <p class="instrucao" contenteditable="true">(De forma orante, repete-se algumas vezes)</p>
+        <p contenteditable="true">Cristo, do mundo a Luz, quem te acompanha terá a luz da vida, luz da vida!</p>
+      </div>
+
+      <div class="section">
+        <div class="section-title" contenteditable="true">1. Canto de Abertura</div>
+        <p><span class="r">R.</span> <span class="bold" contenteditable="true">A ti, Senhor, meu pedido! Volta pra mim, volta pra mim, volta pra mim, Senhor, pra mim, o teu ouvido!</span></p>
+
+        <p class="texto"><span class="num">1.</span> <span contenteditable="true">Ó Senhor, escuta a prece que te faço e o meu pedido! Vem! Me atende, Deus fiel! Eu preciso ser ouvido. Se vieres nos julgar, todo mundo está perdido.</span></p>
+
+        <p class="texto"><span class="num">2.</span> <span contenteditable="true">Lembro os dias do passado: os teus feitos que me alentam; eu te estendo as minhas mãos, a minh'alma está sedenta como terra esturricada, ressequida e poeirenta.</span></p>
+
+        <p class="texto"><span class="num">3.</span> <span contenteditable="true">Vem, me ensina a fazer sempre, ó Senhor, tua vontade! Teu Espírito me guia a uma terra conquistada. Vem, renova minha vida, das angústias libertada.</span></p>
+
+        <p class="autor" contenteditable="true">(L.: Reginaldo Veloso e Pe. Jocy Rodrigues | M.: Ir. Miria T. Kolling)</p>
+      </div>
+
+      <div class="section">
+        <div class="section-title" contenteditable="true">2. Saudação</div>
+        <p><span class="cp">CP.</span> <span contenteditable="true">Em nome do Pai e do Filho e do Espírito Santo.</span></p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Amém.</span></p>
+        <p><span class="cp">CP.</span> <span contenteditable="true">A graça de nosso Senhor Jesus Cristo, o amor do Pai e a comunhão do Espírito Santo estejam convosco.</span></p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Bendito seja Deus que nos reuniu no amor de Cristo.</span></p>
+      </div>
+
+      <div class="section">
+        <div class="section-title" contenteditable="true">3. Introdução ao Mistério Celebrado</div>
+        <p><span class="l">L. (ou CP.):</span> <span contenteditable="true">Irmãs e irmãos, sejam bem-vindos à Celebração da Páscoa de Jesus, da qual este dia de domingo faz memória. Nossa fé e nossa esperança estão direcionadas a Cristo, o Esposo, que nutre a caridade de sua Esposa, a Igreja. Com as lâmpadas de nossa confiança acesas, vamos ao encontro de Cristo e participemos, em vigilante expectativa, da celebração do seu Mistério de amor.</span></p>
+      </div>
+
+    </div><!-- /col1 -->
+
+    <!-- COL 2 -->
+    <div>
+
+      <div class="section">
+        <div class="section-title" contenteditable="true">4. Ato Penitencial</div>
+        <p><span class="cp">CP.</span> <span contenteditable="true">O Senhor Jesus, que nos convida à mesa da Palavra e da Eucaristia, nos chama à conversão. Reconheçamos ser pecadores e invoquemos com confiança a misericórdia do Pai.</span> <span class="instrucao">(silêncio)</span></p>
+        <p><span class="cp">CP.</span> <span contenteditable="true">Confessemos os nossos pecados:</span></p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Confesso a Deus todo-poderoso e a vós, irmãos e irmãs, que pequei muitas vezes por pensamentos e palavras, atos e omissões, por minha culpa, minha tão grande culpa. E peço à Virgem Maria, aos anjos e santos e a vós, irmãos e irmãs, que rogueis por mim a Deus, nosso Senhor.</span></p>
+        <p><span class="cp">CP.</span> <span contenteditable="true">Deus todo-poderoso tenha compaixão de nós, perdoe os nossos pecados e nos conduza à vida eterna.</span></p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Amém.</span></p>
+        <p><span class="cp">CP.</span> <span contenteditable="true">Senhor, tende piedade de nós.</span></p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Senhor, tende piedade de nós.</span></p>
+        <p><span class="cp">CP.</span> <span contenteditable="true">Cristo, tende piedade de nós.</span></p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Cristo, tende piedade de nós.</span></p>
+        <p><span class="cp">CP.</span> <span contenteditable="true">Senhor, tende piedade de nós.</span></p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Senhor, tende piedade de nós.</span></p>
+      </div>
+
+      <div class="section">
+        <div class="section-title" contenteditable="true">5. Hino de Louvor <span class="instrucao">(preferencialmente cantado)</span></div>
+        <p contenteditable="true">Glória a Deus nas alturas, e paz na terra aos homens por Ele amados. Senhor Deus, rei dos céus, Deus Pai todo-poderoso: nós vos louvamos, nós vos bendizemos, nós vos adoramos, nós vos glorificamos, nós vos damos graças por vossa imensa glória. Senhor Jesus Cristo, Filho Unigênito, Senhor Deus, Cordeiro de Deus, Filho de Deus Pai. Vós que tirais o pecado do mundo, tende piedade de nós. Vós que tirais o pecado do mundo, acolhei a nossa súplica. Vós que estais à direita do Pai, tende piedade de nós. Só vós sois o Santo, só vós, o Senhor, só vós, o Altíssimo, Jesus Cristo, com o Espírito Santo, na glória de Deus Pai. Amém.</p>
+      </div>
+
+      <div class="section">
+        <div class="section-title" contenteditable="true">6. Coleta</div>
+        <p><span class="cp">CP.</span> <span contenteditable="true">Oremos.</span> <span class="instrucao">(silêncio)</span> <span contenteditable="true">Deus de poder e misericórdia, afastai de nós todo obstáculo para que, inteiramente disponíveis, nos dediquemos ao vosso serviço. Por nosso Senhor Jesus Cristo, vosso Filho, na unidade do Espírito Santo.</span></p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Amém.</span></p>
+      </div>
+
+    </div><!-- /col2 -->
+
+    <!-- COL 3 -->
+    <div>
+
+      <!-- Ilustração -->
+      <div style="text-align:center; margin-bottom:5px;">
+        <div style="border:1px dashed #ccc; height:80px; display:flex; align-items:center; justify-content:center; font-size:9px; color:#aaa;">Ilustração (virgem prudente)</div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Liturgia da Palavra</div>
+        <p><span class="l">L.</span> <span contenteditable="true">Irmãs e irmãos, iniciemos a Liturgia da Palavra e dela participemos com toda atenção e com amorosa escuta.</span></p>
+      </div>
+
+      <div class="section">
+        <div class="section-title" contenteditable="true">7. Primeira Leitura – Sb 6,12-16</div>
+        <p class="subverde" contenteditable="true">Leitura do Livro da Sabedoria</p>
+        <p class="texto"><span class="num">12</span><span contenteditable="true">A Sabedoria é resplandecente e sempre viçosa. Ela é facilmente contemplada por aqueles que a amam, e é encontrada por aqueles que a procuram. </span><span class="num">13</span><span contenteditable="true">Ela até se antecipa, dando-se a conhecer aos que a desejam. </span><span class="num">14</span><span contenteditable="true">Quem por ela madruga não se cansará, pois a encontrará sentada à sua porta. </span><span class="num">13</span><span contenteditable="true">Meditar sobre ela é a perfeição da prudência; e quem ficar acordado por causa dela, em breve há de viver despreocupado. </span><span class="num">16</span><span contenteditable="true">Pois ela mesma sai à procura dos que a merecem, cheia de bondade, aparece-lhes nas estradas e vai ao seu encontro em todos os seus projetos.</span></p>
+        <p><span class="bold" contenteditable="true">Palavra do Senhor.</span></p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Graças a Deus.</span></p>
+      </div>
+
+      <div class="section">
+        <div class="section-title" contenteditable="true">8. Salmo Responsorial – Sl 62(63)</div>
+        <p><span class="r">R.</span> <span class="bold" contenteditable="true">A minh'alma tem sede de vós, e vos deseja, ó Senhor.</span></p>
+      </div>
+
+    </div><!-- /col3 -->
+
+  </div><!-- /cols3 -->
+
+  <div class="footer-page">
+    <span contenteditable="true">Igreja em Oração – Semanário litúrgico-catequético – Edições CNBB</span>
+    <span class="page-num">1</span>
+  </div>
+
+</div><!-- /page1 -->
+
+<!-- ============================================================ -->
+<!-- PÁGINA 2 -->
+<!-- ============================================================ -->
+<div class="page" id="page2">
+
+  <div class="cols3">
+
+    <!-- COL 1 -->
+    <div>
+
+      <div class="section">
+        <p class="texto"><span class="num">1.</span> <span contenteditable="true"><span class="num">2</span>Sois vós, ó Senhor, o meu Deus! */ Desde a aurora ansioso vos busco!/ A minh'alma tem sede de vós, †/ minha carne também vos deseja, */ como terra sedenta e sem água!</span> <span class="r">R.</span></p>
+        <p><span class="r">R.</span> <span class="bold" contenteditable="true">A minh'alma tem sede de vós, e vos deseja, ó Senhor.</span></p>
+        <p class="texto"><span class="num">2.</span> <span contenteditable="true"><span class="num">3</span>Venho, assim, contemplar-vos no templo, */ para ver vossa glória e poder./ <span class="num">4</span>Vosso amor vale mais do que a vida: */ e por isso meus lábios vos louvam.</span> <span class="r">R.</span></p>
+        <p class="texto"><span class="num">3.</span> <span contenteditable="true"><span class="num">5</span>Quero, pois, vos louvar pela vida, */ e elevar para vós minhas mãos!/ <span class="num">6</span>A minh'alma será saciada, †/ como em grande banquete de festa; */ cantará a alegria em meus lábios.</span> <span class="r">R.</span></p>
+        <p class="texto"><span class="num">4.</span> <span contenteditable="true"><span class="num">7</span>Penso em vós no meu leito, de noite, */ nas vigílias suspiro por vós!/ <span class="num">8</span>Para mim fostes sempre um socorro; */ de vossas asas à sombra eu exulto!</span> <span class="r">R.</span></p>
+      </div>
+
+      <div class="section">
+        <div class="section-title" contenteditable="true">9. Segunda Leitura – 1Ts 4,13-18</div>
+        <p class="instrucao" contenteditable="true">[mais breve entre colchetes]</p>
+        <p class="subverde" contenteditable="true">Leitura da Primeira Carta de São Paulo aos Tessalonicenses</p>
+        <p class="texto"><span class="brackets">[</span><span class="num">13</span><span contenteditable="true">Irmãos: não queremos deixar-vos na incerteza a respeito dos mortos, para que não fiqueis tristes como os outros, que não têm esperança. <span class="num">14</span>Se Jesus morreu e ressuscitou – e esta é nossa fé – de modo semelhante Deus trará de volta, com Cristo, os que através dele entraram no sono da morte.</span><span class="brackets">]</span> <span class="num">15</span><span contenteditable="true">Isto vos declaramos, segundo a palavra do Senhor: nós que formos deixados com vida para a vinda do Senhor não levaremos vantagem em relação aos que morreram. <span class="num">16</span>Pois o Senhor mesmo, quando for dada a ordem, à voz do arcanjo e ao som da trombeta, descerá do céu, e os que morreram em Cristo ressuscitarão primeiro. <span class="num">17</span>Em seguida, nós que formos deixados com vida seremos arrebatados com eles nas nuvens, para o encontro com o Senhor, nos ares. E assim estaremos sempre com o Senhor. <span class="num">18</span>Exortai-vos, pois, uns aos outros, com essas palavras.</span></p>
+        <p><span class="bold" contenteditable="true">Palavra do Senhor.</span></p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Graças a Deus.</span></p>
+      </div>
+
+      <div class="section">
+        <div class="section-title" contenteditable="true">10. Aclamação ao Evangelho – Mt 24,42a.44</div>
+        <p><span class="r">R.</span> <span class="bold" contenteditable="true">Aleluia, Aleluia, Aleluia.</span></p>
+        <p><span class="num">V.</span> <span contenteditable="true">É preciso vigiar e ficar de prontidão; em que dia o Senhor há de vir, não sabeis não!</span> <span class="r">R.</span></p>
+      </div>
+
+      <div class="section">
+        <div class="section-title" contenteditable="true">11. Evangelho – Mt 25,1-13</div>
+        <p><span class="cp">CP.</span> <span contenteditable="true">O Senhor esteja convosco.</span></p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Ele está no meio de nós.</span></p>
+      </div>
+
+    </div><!-- /col1 -->
+
+    <!-- COL 2 -->
+    <div>
+
+      <p><span class="cp">✠</span> <span contenteditable="true">Proclamação do Evangelho de Jesus Cristo segundo Mateus.</span></p>
+      <p><span class="t">T.</span> <span class="bold" contenteditable="true">Glória a vós, Senhor.</span></p>
+
+      <p contenteditable="true">Naquele tempo, disse Jesus a seus discípulos esta parábola: <span class="num">1</span>"O Reino dos Céus é como a história das dez jovens que pegaram suas lâmpadas de óleo e saíram ao encontro do noivo. <span class="num">2</span>Cinco delas eram imprevidentes, e as outras cinco eram previdentes. <span class="num">3</span>As imprevidentes pegaram as suas lâmpadas, mas não levaram óleo consigo. <span class="num">4</span>As previdentes, porém, levaram vasilhas com óleo junto com as lâmpadas. <span class="num">5</span>O noivo estava demorando, e todas elas acabaram cochilando e dormindo. <span class="num">6</span>No meio da noite, ouviu-se um grito: 'O noivo está chegando. Ide ao seu encontro!' <span class="num">7</span>Então as dez jovens se levantaram e prepararam as lâmpadas. <span class="num">8</span>As imprevidentes disseram às previdentes: 'Dai-nos um pouco de óleo, porque nossas lâmpadas estão se apagando'. <span class="num">9</span>As previdentes responderam: 'De modo nenhum, porque o óleo pode ser insuficiente para nós e para vós. É melhor irdes comprar dos vendedores'. <span class="num">10</span>Enquanto elas foram comprar óleo, o noivo chegou, e as que estavam preparadas entraram com ele para a festa de casamento. E a porta se fechou. <span class="num">11</span>Por fim, chegaram também as outras jovens e disseram: 'Senhor! Senhor! Abre-nos a porta!' <span class="num">12</span>Ele, porém, respondeu: 'Em verdade eu vos digo: Não vos conheço!' <span class="num">13</span>Portanto, ficai vigiando, pois não sabeis qual será o dia, nem a hora".</p>
+      <p><span class="bold" contenteditable="true">Palavra da Salvação.</span></p>
+      <p><span class="t">T.</span> <span class="bold" contenteditable="true">Glória a vós, Senhor.</span></p>
+
+      <div class="section" style="margin-top:6px;">
+        <div class="section-title" contenteditable="true">12. Homilia</div>
+      </div>
+
+      <div class="section">
+        <div class="section-title" contenteditable="true">13. Profissão de Fé <span class="instrucao">(Símbolo Apostólico)</span></div>
+        <p contenteditable="true">Creio em Deus Pai todo-poderoso, criador do céu e da terra. E em Jesus Cristo, seu único Filho, nosso Senhor, que foi concebido pelo poder do Espírito Santo; nasceu da Virgem Maria; padeceu sob Pôncio Pilatos, foi crucificado, morto e sepultado. Desceu ao mansão dos mortos; ressuscitou ao terceiro dia, subiu aos céus; está sentado à direita de Deus Pai todo-poderoso, donde há de vir a julgar os vivos e os mortos. Creio no Espírito Santo; na Santa Igreja Católica; na comunhão dos santos; na remissão dos pecados; na ressurreição da carne; na vida eterna. Amém.</p>
+      </div>
+
+    </div><!-- /col2 -->
+
+    <!-- COL 3 -->
+    <div>
+
+      <div class="section">
+        <div class="section-title" contenteditable="true">14. Preces da Comunidade</div>
+        <p><span class="cp">CP.</span> <span contenteditable="true">Irmãs e irmãos, com toda confiança e humildade, elevemos ao Senhor as nossas súplicas:</span></p>
+        <p class="instrucao" contenteditable="true">(Resposta cantada ou rezada)</p>
+        <p><span class="r">R.</span> <span class="bold" contenteditable="true">Iluminai, Senhor, a vossa Igreja!</span></p>
+
+        <div class="nota-musical">♩ ♪ ♫ – Notação musical – ♫ ♪ ♩</div>
+
+        <p class="texto"><span class="num">1.</span> <span contenteditable="true">Iluminai a vossa Igreja, Senhor, e mantende aceso o óleo da fé, da esperança, da caridade e do ardor missionário, nós vos pedimos.</span></p>
+        <p class="texto"><span class="num">2.</span> <span contenteditable="true">Preenchei-nos com o dom do vosso Espírito, para que estejamos sempre vigilantes à vossa vinda, à vossa presença em cada pessoa e aos vossos sinais de amor e salvação, nós vos pedimos.</span></p>
+        <p class="texto"><span class="num">3.</span> <span contenteditable="true">Dai-nos a força para superar todos os tipos de indiferença e insensibilidade que estão destruindo as relações humanas e plantando ódio, vingança e violência no mundo, nós vos pedimos.</span></p>
+        <p class="instrucao" contenteditable="true">(Outras intenções preparadas pela equipe)</p>
+        <p><span class="cp">CP.</span> <span contenteditable="true">Brilhe sobre nós o vosso clarão, ó Pai de bondade; e, em vossa misericórdia, atendei aos nossos pedidos. Por Cristo, nosso Senhor.</span></p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Amém.</span></p>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Liturgia Eucarística</div>
+      </div>
+
+      <div class="section">
+        <div class="section-title" contenteditable="true">15. Preparação das Oferendas</div>
+        <p><span class="r">R.</span> <span class="bold" contenteditable="true">Bendito sejas, Senhor Deus, pelo vinho e pelo pão: vão tornar-se no caminho alimento e salvação!</span></p>
+
+        <p class="texto"><span class="num">1.</span> <span contenteditable="true">Ó Senhor, neste altar colocamos, com ofertas de pão e de vinho, alegria, esperança e angústia, que são parte de nosso caminho.</span></p>
+        <p class="texto"><span class="num">2.</span> <span contenteditable="true">Mesmo quando forçado a partir e deixar sua terra natal, este povo caminha contigo, com vigor, combatendo o mal!</span></p>
+        <p class="texto"><span class="num">3.</span> <span contenteditable="true">Se os estranhos nos vêm perguntar: "povo errante, pra onde tu vais?" Nós dizemos: "com Deus caminhamos, para o amor, a verdade e a paz".</span></p>
+        <p class="autor" contenteditable="true">(L.: Maria de Fátima Oliveira | M.: Giovanni Rodrigues)</p>
+      </div>
+
+      <div class="section">
+        <div class="section-title" contenteditable="true">16. Convite à Oração</div>
+        <p><span class="cp">CP.</span> <span contenteditable="true">Orai, irmãos e irmãs, para que o nosso sacrifício seja aceito por Deus Pai todo-poderoso.</span></p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Receba o Senhor por tuas mãos este sacrifício, para glória do seu nome, para nosso bem e de toda a santa Igreja.</span></p>
+      </div>
+
+    </div><!-- /col3 -->
+
+  </div>
+
+  <div class="footer-page">
+    <span contenteditable="true">Igreja em Oração – Edições CNBB</span>
+    <span class="page-num">2</span>
+  </div>
+
+</div><!-- /page2 -->
+
+<!-- ============================================================ -->
+<!-- PÁGINA 3 -->
+<!-- ============================================================ -->
+<div class="page" id="page3">
+
+  <div class="cols3">
+
+    <!-- COL 1 -->
+    <div>
+
+      <div class="section">
+        <div class="section-title" contenteditable="true">17. Oração sobre as Oferendas</div>
+        <p><span class="cp">CP.</span> <span contenteditable="true">Lançai, ó Deus, sobre o nosso sacrifício um olhar de perdão e de paz, para que, celebrando a paixão do vosso Filho, possamos viver o seu mistério. Por Cristo, nosso Senhor.</span></p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Amém.</span></p>
+      </div>
+
+      <div class="section">
+        <div class="section-title" contenteditable="true">18. Oração Eucarística III <span class="small-ref">(MR, p. 482)</span></div>
+        <p class="instrucao" contenteditable="true">(Pf. dos Domingos do Tempo Comum, I – MR, p. 428)</p>
+        <p><span class="cp">CP.</span> <span contenteditable="true">O Senhor esteja convosco.</span></p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Ele está no meio de nós.</span></p>
+        <p><span class="cp">CP.</span> <span contenteditable="true">Corações ao alto.</span></p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">O nosso coração está em Deus.</span></p>
+        <p><span class="cp">CP.</span> <span contenteditable="true">Demos graças ao Senhor, nosso Deus.</span></p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">É nosso dever e nossa salvação.</span></p>
+
+        <p contenteditable="true">Na verdade, é justo e necessário, é nosso dever e salvação dar-vos graças, sempre e em todo o lugar, Senhor, Pai santo, Deus eterno e todo-poderoso, por Cristo, vosso Filho, que, pelo mistério da sua Páscoa, realizou uma obra admirável. Por ele, vós nos chamastes das trevas à vossa luz incomparável, fazendo-nos passar do pecado e da morte à glória de sermos o vosso povo, sacerdócio régio e nação santa, para anunciar, por todo o mundo, as vossas maravilhas. Por essa razão, agora e sempre, nós nos unimos à multidão dos anjos e dos santos, cantando (dizendo) a uma só voz:</p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Santo, Santo, Santo...</span></p>
+
+        <p><span class="cp">CP.</span> <span contenteditable="true">Na verdade, vós sois santo, ó Deus do universo, e tudo o que criastes proclama o vosso louvor, porque, por Jesus Cristo, vosso Filho e Senhor nosso, e pela força do Espírito Santo, dais vida e santidade a todas as coisas e não cessais de reunir o vosso povo, para que vos ofereça em toda parte, do nascer ao pôr do sol, um sacrifício perfeito.</span></p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Santificai e reuni o vosso povo!</span></p>
+
+        <p><span class="cc">CC.</span> <span contenteditable="true">Por isso, nós vos suplicamos: santificai pelo Espírito Santo as oferendas que vos apresentamos para serem consagradas, a fim de que se tornem o Corpo e ✠ o Sangue de Jesus Cristo, vosso Filho e Senhor nosso, que nos mandou celebrar este mistério.</span></p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Santificai nossa ofenda, ó Senhor!</span></p>
+
+        <p contenteditable="true">Na noite em que ia ser entregue, ele tomou o pão, deu graças, e o partiu e deu a seus discípulos, dizendo: <span class="bold">TOMAI, TODOS, E COMEI: ISTO É O MEU CORPO, QUE SERÁ ENTREGUE POR VÓS.</span> Do mesmo modo, ao fim da ceia, ele tomou o cálice em suas</p>
+      </div>
+
+    </div><!-- /col1 -->
+
+    <!-- COL 2 -->
+    <div>
+
+      <p contenteditable="true">mãos, deu graças novamente, e o deu a seus discípulos, dizendo: <span class="bold">TOMAI, TODOS, E BEBEI: ESTE É O CÁLICE DO MEU SANGUE, O SANGUE DA NOVA E ETERNA ALIANÇA, QUE SERÁ DERRAMADO POR VÓS E POR TODOS PARA REMISSÃO DOS PECADOS. FAZEI ISTO EM MEMÓRIA DE MIM.</span></p>
+
+      <p><span class="cp">CP.</span> <span contenteditable="true">Eis o mistério da fé!</span></p>
+      <p><span class="t">T.</span> <span class="bold" contenteditable="true">Anunciamos, Senhor, a vossa morte e proclamamos a vossa ressurreição. Vinde, Senhor Jesus!</span></p>
+
+      <p><span class="cc">CC.</span> <span contenteditable="true">Celebrando agora, ó Pai, a memória do vosso Filho, da sua paixão que nos salva, da sua gloriosa ressurreição e da sua ascensão ao céu, enquanto esperamos a sua nova vinda, nós vos oferecemos em ação de graças este sacrifício de vida e santidade.</span></p>
+      <p><span class="t">T.</span> <span class="bold" contenteditable="true">Recebei, ó Senhor, a nossa oferta!</span></p>
+
+      <p contenteditable="true">Olhai com bondade a ofenda da vossa Igreja, reconhecei o sacrifício que nos reconcilia convosco e concedei que, alimentando-nos com o Corpo e o Sangue do vosso Filho, sejamos repletos do Espírito Santo e nos tornemos em Cristo um só corpo e um só espírito.</p>
+      <p><span class="t">T.</span> <span class="bold" contenteditable="true">Fazei de nós um só corpo e um só espírito!</span></p>
+
+      <p><span class="num">1C.</span> <span contenteditable="true">Que ele faça de nós uma ofenda perfeita para alcançarmos a vida eterna com os vossos santos: a Virgem Maria, Mãe de Deus, São José, seu esposo, os vossos Apóstolos e Mártires, N. <span class="instrucao">(santo do dia ou o padroeiro)</span> e todos os santos, que não cessam de interceder por nós na vossa presença.</span></p>
+      <p><span class="t">T.</span> <span class="bold" contenteditable="true">Fazei de nós uma perfeita ofenda!</span></p>
+
+      <p><span class="num">2C.</span> <span contenteditable="true">E agora, nós vos suplicamos, ó Pai, que este sacrifício da nossa reconciliação estenda a paz e a salvação ao mundo inteiro. Confirmai na fé e na caridade a vossa Igreja, enquanto caminha neste mundo: o vosso servo o Papa N., o nosso Bispo N., com os bispos do mundo inteiro, o clero e todo o povo que conquistastes.</span></p>
+      <p><span class="t">T.</span> <span class="bold" contenteditable="true">Lembrai-vos, ó Pai, da vossa Igreja!</span></p>
+
+      <p><span class="num">3C.</span> <span contenteditable="true">Acolhei com bondade no vosso reino os nossos irmãos e irmãs que partiram desta vida e todos os que</span></p>
+
+    </div><!-- /col2 -->
+
+    <!-- COL 3 -->
+    <div>
+
+      <p contenteditable="true">morreram na vossa amizade. Unidos a eles, esperamos também nós saciar-nos eternamente da vossa glória, por Cristo, Senhor nosso.</p>
+      <p><span class="t">T.</span> <span class="bold" contenteditable="true">A todos saciai com vossa glória!</span></p>
+
+      <p contenteditable="true">Por ele dais ao mundo todo bem e toda graça.</p>
+      <p><span class="cp">CP.</span> <span contenteditable="true">Por Cristo, com Cristo, em Cristo, a vós, Deus Pai todo-poderoso, na unidade do Espírito Santo, toda a honra e toda a glória, agora e para sempre.</span></p>
+      <p><span class="t">T.</span> <span class="bold" contenteditable="true">Amém.</span></p>
+
+      <div class="section">
+        <div class="section-title" contenteditable="true">19. Rito da Comunhão</div>
+        <p><span class="cp">CP.</span> <span contenteditable="true">Rezemos, com amor e confiança, a oração que o Senhor Jesus nos ensinou:</span></p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Pai nosso...</span></p>
+        <p><span class="cp">CP.</span> <span contenteditable="true">Livrai-nos de todos os males...</span></p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Vosso é o reino, o poder e a glória para sempre!</span></p>
+        <p><span class="cp">CP.</span> <span contenteditable="true">Senhor Jesus Cristo...</span></p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Amém.</span></p>
+        <p><span class="cp">CP.</span> <span contenteditable="true">A paz do Senhor esteja sempre convosco.</span></p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">O amor de Cristo nos uniu.</span></p>
+        <p><span class="cp">CP.</span> <span contenteditable="true">Irmãos e irmãs, saudai-vos em Cristo Jesus.</span></p>
+        <p><span class="t"><span class="instrucao">(cantado)</span></span> <span class="bold" contenteditable="true">Cordeiro de Deus...</span></p>
+        <p><span class="cp">CP.</span> <span contenteditable="true">Eu sou a luz do mundo; quem me segue não andará nas trevas, mas terá a luz da vida. Eis o Cordeiro de Deus, que tira o pecado do mundo.</span></p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Senhor, eu não sou digno(a) de que entreis em minha morada, mas dizei uma palavra e serei salvo(a).</span></p>
+      </div>
+
+      <div class="section">
+        <div class="section-title" contenteditable="true">20. Canto de Comunhão</div>
+        <p><span class="r">R.</span> <span class="bold" contenteditable="true">É preciso ficar acordado, pra entrar no cortejo festivo. Estás sempre chegando, Senhor, pra te unires a nós no Pão vivo.</span></p>
+        <p class="texto"><span class="num">1.</span> <span contenteditable="true">Só em Deus acho repouso, dele espero a salvação. Ele é a rocha que me salva; força pra eu não ir ao chão. Até quando vocês juntos contra um só atacarão?</span></p>
+        <p class="texto"><span class="num">2.</span> <span contenteditable="true">Contra um muro que se inclina ou parede a desabar, a desabar. Já tramaram derrubar-me e não sabem se calar. Sua boca diz louvores, dentro, pensam em condenar.</span></p>
+        <p class="texto"><span class="num">3.</span> <span contenteditable="true">Povo, espera no Senhor, abre a Ele o coração, o coração. Todo homem é só um sopro, mesmo os bons falam ilusão. Se botarmos na balança, sobem mais que um balão.</span></p>
+        <p class="autor" contenteditable="true">(V.: Pe. Jocy Rodrigues e Reginaldo Veloso | M.: Hamilton Florentino dos Santos)</p>
+        <p class="instrucao" contenteditable="true">(Momento de silêncio)</p>
+      </div>
+
+    </div><!-- /col3 -->
+
+  </div>
+
+  <div class="footer-page">
+    <span contenteditable="true">Igreja em Oração – Edições CNBB</span>
+    <span class="page-num">3</span>
+  </div>
+
+</div><!-- /page3 -->
+
+<!-- ============================================================ -->
+<!-- PÁGINA 4 -->
+<!-- ============================================================ -->
+<div class="page" id="page4">
+
+  <div class="cols2">
+
+    <!-- COL 1 -->
+    <div>
+
+      <div class="section">
+        <div class="section-title" contenteditable="true">21. Depois da Comunhão</div>
+        <p><span class="cp">CP.</span> <span contenteditable="true">Oremos.</span> <span class="instrucao">(silêncio)</span> <span contenteditable="true">Fortificados por este alimento sagrado, nós vos damos graças, ó Deus, e imploramos a vossa clemência; fazei que perseverem na sinceridade do vosso amor aqueles que fortalecestes pela infusão do Espírito Santo. Por Cristo, nosso Senhor.</span></p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Amém.</span></p>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Ritos Finais</div>
+      </div>
+
+      <div class="section">
+        <div class="section-title" contenteditable="true">22. Breves Avisos <span class="instrucao">(caso necessário)</span></div>
+      </div>
+
+      <div class="section">
+        <div class="section-title" contenteditable="true">23. Bênção Final <span class="small-ref">(MR, p. 532, n. 7)</span></div>
+        <p><span class="cp">CP.</span> <span contenteditable="true">O Senhor esteja convosco.</span></p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Ele está no meio de nós.</span></p>
+        <p><span class="cp">CP.</span> <span contenteditable="true">Iluminai, ó Deus de bondade, a vossa família, para que, abraçando a vossa vontade, possa viver fazendo o bem. Por Cristo, nosso Senhor.</span></p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Amém.</span></p>
+        <p><span class="cp">CP.</span> <span contenteditable="true">Abençoe-vos Deus todo-poderoso, Pai e Filho ✠ e Espírito Santo.</span></p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Amém.</span></p>
+        <p><span class="cp">CP.</span> <span contenteditable="true">Glorificai o Senhor com vossa vida; ide em paz e o Senhor vos acompanhe.</span></p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Graças a Deus.</span></p>
+      </div>
+
+      <div class="section">
+        <div class="section-title" contenteditable="true">24. Canto Final <span class="instrucao">(a ser escolhido pela equipe de canto)</span></div>
+      </div>
+
+      <div class="section">
+        <div class="sugestoes-title" contenteditable="true">Sugestões para a Equipe de Celebração</div>
+        <div class="qr-row">
+          <div class="qr-text">
+            <p contenteditable="true">1. Para ter acesso às cifras e aos áudios dos cantos: aponte a câmera do seu celular para o QR Code ao lado ou acesse: edicoescnbb.blog.</p>
+          </div>
+          <div class="qr-box">QR</div>
         </div>
+      </div>
 
-        <div class="logo">LOGO</div>
+      <div class="section">
+        <div class="medita-title" contenteditable="true">Meditando a Palavra de Deus</div>
+        <div class="medita-autor" contenteditable="true">Pe. João Batista Gomes</div>
+        <p contenteditable="true">O Reino de Deus é como uma festa de casamento. As dez virgens, caracterizadas como cinco previdentes e cinco imprevidentes, representam a Igreja, as comunidades cristãs, cada cristão, em síntese, todos que caminham para o encontro com o "esperado" Noivo, Jesus. O noivo da parábola chegou de repente, assim como inesperadamente Jesus voltará. As mulheres dormiam e, quando acordaram, as previdentes entraram para a festa e as imprevidentes, por estarem despreparadas, correram em busca do óleo, mas era tarde demais, pois a porta da festa se fechou. No momento da chegada do noivo, ninguém estará em condição de ajudar ao outro, pois a questão é entre cada virgem e o noivo, entre</p>
+        <p contenteditable="true">cada pessoa e o Senhor. As pessoas devem se ajudar, corrigir umas às outras, alertar quanto à preparação, enquanto estão a caminho: está se preparando para levar óleo suficiente? O óleo representa as boas obras realizadas durante a vida, a capacidade de perdoar, de acolher o próximo, o espírito e a prática da solidariedade e da misericórdia. São essas atitudes que vão preenchendo a vasilha com óleo suficiente para a espera e para a festa nupcial. A comunidade cristã deve viver neste mundo esperando vigilante o retorno do Senhor, pois ninguém sabe o momento de seu retorno (Mt 24,36). É tarefa cristã ajudar uns aos outros enquanto possível, fazendo a vontade do Pai, preparando as lâmpadas e o óleo do amor suficiente para o encontro pessoal com o Senhor.</p>
+      </div>
+
+    </div><!-- /col1 -->
+
+    <!-- COL 2 -->
+    <div>
+
+      <div class="cnbb-brasil-box">
+        <div class="cnbb-brasil-title" contenteditable="true">Igreja no Brasil</div>
+        <div class="cnbb-brasil-sub" contenteditable="true">Viver e saber esperar com esperança</div>
+
+        <p contenteditable="true">O Senhor Jesus, no texto do Evangelho escrito por São Mateus (Mt 25,1-13), nos fala do final dos tempos, da sua vinda definitiva e de uma espera indefinida. O mais importante é que tudo depende de quanto cada um está preparado para essa longa espera. Por isso a importância de nos mantermos vigilantes, porque não sabemos a hora em que o Senhor nos chamará. O estar vigilantes é um modo que temos para viver a nossa fé de forma responsável e responder ao convite das núpcias que a sabedoria de Deus nos oferece. O cristão, na sua peregrinação para a Casa do Pai, jamais poderá deixar de estar atento, de lutar e resistir àquilo que o impede de acolher o Senhor em sua vida ou que é um empecilho à vivência dos valores do Evangelho. Quando, no nosso dia a dia, sentimos sede de Deus, é algo muito positivo, porque significa que não nos resignamos à indiferença, à apatia ou ao desânimo. Somente quem tem essa sede de Deus pode vigiar ou ficar à espera indefinida da sua vinda, lembrando que é o amor que nos mantém acordados e vigilantes. Penso que, no coração de cada pessoa, está presente o desejo de viver, por mais duras que sejam as suas condições sociais. Não só viver, mas viver em um mundo onde reina a paz, o amor, o diálogo, a acolhida, mesmo em um ambiente marcado por tantas formas de violência, que levam a vida a ser vivida na incerteza e na fragilidade do dia a dia. Tenhamos presente que a Palavra de Deus não esmorece, nem perde a sua força diante de tantos sinais de morte que marcam a nossa sociedade, ela nos convida a ser otimistas e a nos empenhar na construção de um mundo novo com altruísmo, responsabilidade e esperança. (...)</p>
+
+        <p class="instrucao" contenteditable="true">(Leia na íntegra: https://www.cnbb.org.br/viver-e-saber-esperar-com-esperanca/)</p>
+
+        <div class="dom-jose" contenteditable="true">Dom José Gislon</div>
+        <div class="dom-jose-cargo" contenteditable="true">Bispo de Caxias do Sul-RS</div>
+      </div>
+
+      <!-- Leituras da semana -->
+      <div class="leituras-semana">
+        <div class="ls-title" contenteditable="true">Leituras da Semana (32ª Semana do Tempo Comum)</div>
+        <p><span style="color:#b0302a;font-weight:700;">Seg.:</span> <span contenteditable="true">Sb 1,1-7; Sl 138(139),1-3.4-6.7-8.9-10 (R. 24b); Lc 17,1-6</span></p>
+        <p><span style="color:#b0302a;font-weight:700;">Ter.:</span> <span contenteditable="true">Sb 2,23-3,9; Sl 33(34),2-3.16-17.18-19 (R. 2a); Lc 17,7-10</span></p>
+        <p><span style="color:#b0302a;font-weight:700;">Qua.:</span> <span contenteditable="true">Sb 6,1-11; Sl 81(82),3-4.6-7 (R. 8a); Lc 17,11-19</span></p>
+        <p><span style="color:#b0302a;font-weight:700;">Qui.:</span> <span contenteditable="true">Sb 7,22-8,1; Sl 118(119),89.90.91.130.135.175 (R. 89a); Lc 17,20-25</span></p>
+        <p><span style="color:#b0302a;font-weight:700;">Sex.:</span> <span contenteditable="true">Santa Isabel da Hungria, religiosa, memória – Sb 13,1-9; Sl 18A(19),2-3.4-5 (R. 2a); Lc 17,26-37</span></p>
+        <p><span style="color:#b0302a;font-weight:700;">Sáb.:</span> <span contenteditable="true">Sb 18,14-16;19,6-9; Sl 104(105),2-3.36-37.42-43 (R. 5a); Lc 18,1-8</span></p>
+        <p><span style="color:#b0302a;font-weight:700;">Dom.:</span> <span contenteditable="true">33º Domingo do Tempo Comum: Pr 31,10-13.19-20.30-31; Sl 127(128),1-2.3.4-5ab (R. cf. 1a); 1Ts 5,1-6; Mt 25,14-30 <em>ou mais breve</em> 25,14-15.19-21</span></p>
+      </div>
+
+    </div><!-- /col2 -->
+
+  </div>
+
+  <!-- CRÉDITOS -->
+  <div class="credits-bar">
+    <div>
+      <p><strong>Direção-Geral:</strong> <span contenteditable="true">Mons. Jamil Alves de Souza</span></p>
+      <p><strong>Organização:</strong> <span contenteditable="true">Frei Telles Ramon, O. de M.</span></p>
+      <p><strong>Edição:</strong> <span contenteditable="true">João Vítor Gonzaga Moura</span></p>
+      <p><strong>Revisão:</strong> <span contenteditable="true">Sarah Rodrigues e Vinícius Caetano</span></p>
     </div>
-
-    <div class="subtitle">32º Domingo do Tempo Comum</div>
-</div>
-
-<!-- CONTEÚDO -->
-<div class="columns">
-
-<!-- COLUNA 1 -->
-<div>
-
-    <div class="section">
-        <div class="section-title">RITOS INICIAIS</div>
-
-        <p class="instrucao">(De forma orante, repetir-se algumas vezes)</p>
-
-        <p><span class="r">R.</span> A ti, Senhor, meu pedido! Volta pra mim...</p>
-
-        <p class="texto"><span class="num">1.</span> Ó Senhor, escuta a prece que te faço...</p>
-        <p class="texto"><span class="num">2.</span> Lembro os dias do passado...</p>
-        <p class="texto"><span class="num">3.</span> Vem, me ensina a fazer sempre tua vontade...</p>
+    <div>
+      <p><strong>Ilustrações:</strong> <span contenteditable="true">Leonardo Cardoso</span></p>
+      <p><strong>Projeto gráfico:</strong> <span contenteditable="true">Henrique Billygran Santos de Jesus</span></p>
+      <p><strong>Diagramação:</strong> <span contenteditable="true">Suelen Rodrigues da Silva</span></p>
+      <p><strong>Impressão:</strong> <span contenteditable="true">Foxy Editora Gráfica</span></p>
     </div>
+  </div>
 
-    <div class="section">
-        <div class="section-title">SAUDAÇÃO</div>
-
-        <p><span class="cp">CP.</span> Em nome do Pai e do Filho...</p>
-        <p><span class="t">T.</span> Amém.</p>
-
-        <p><span class="cp">CP.</span> A graça de nosso Senhor Jesus Cristo...</p>
-        <p><span class="t">T.</span> Bendito seja Deus que nos reuniu...</p>
+  <div class="footer-page">
+    <span class="page-num">4</span>
+    <div class="cnbb-footer" contenteditable="true">
+      Edições CNBB – SAAN, Quadra 3, Lotes 590/600 – CEP: 70.632-350 – Zona Industrial – Brasília-DF<br>
+      Televendas: 0800 940 3019 · (61) 2193 3019 / assinaturas@edicoescnbb.com.br
     </div>
+  </div>
 
-</div>
+</div><!-- /page4 -->
 
-<!-- COLUNA 2 -->
-<div>
-
-    <div class="section">
-        <div class="section-title">4. ATO PENITENCIAL</div>
-
-        <p><span class="cp">CP.</span> O Senhor Jesus, que nos convida...</p>
-
-        <p><span class="t">T.</span> Confesso a Deus todo-poderoso...</p>
-
-        <p><span class="cp">CP.</span> Deus todo-poderoso tenha compaixão...</p>
-
-        <p><span class="t">T.</span> Amém.</p>
-
-        <p><span class="cp">CP.</span> Senhor, tende piedade de nós.</p>
-        <p><span class="t">T.</span> Senhor, tende piedade de nós.</p>
-    </div>
-
-</div>
-
-<!-- COLUNA 3 -->
-<div>
-
-    <div class="section">
-        <div class="section-title">LITURGIA DA PALAVRA</div>
-
-        <p>Irmãs e irmãos, iniciemos a Liturgia da Palavra...</p>
-    </div>
-
-    <div class="section">
-        <div class="section-title">PRIMEIRA LEITURA</div>
-
-        <p class="subverde">Leitura do Livro da Sabedoria</p>
-
-        <p class="texto">A sabedoria é resplandecente e sempre viçosa...</p>
-        <p class="texto">Ela é facilmente contemplada por aqueles que a amam...</p>
-        <p class="texto">Quem por ela madruga não se cansará...</p>
-    </div>
-
-</div>
-
-</div>
-
-<div class="footer">
-    Edições CNBB • Modelo adaptado
-</div>
-
-</div>
+</div><!-- /pages-container -->
 
 </body>
 </html>
