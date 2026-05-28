@@ -14,7 +14,7 @@
 
 body {
   margin: 0;
-  background: #b0b0b0;
+  background: #b0a898;
   font-family: 'Source Sans 3', sans-serif;
 }
 
@@ -22,7 +22,7 @@ body {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 1000;
-  background: #2d3b2d;
+  background: #3b2e1e;
   color: #fff;
   padding: 8px 16px;
   display: flex;
@@ -36,12 +36,12 @@ body {
 #toolbar span.label {
   font-weight: 700;
   font-size: 14px;
-  color: #a8c8a8;
+  color: #d4b483;
   margin-right: 6px;
 }
 
 #toolbar button {
-  background: #4a6a4a;
+  background: #7a5c2e;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -51,33 +51,70 @@ body {
   transition: background 0.2s;
 }
 
-#toolbar button:hover { background: #5f8f5f; }
+#toolbar button:hover { background: #9a7a42; }
 #toolbar button.primary { background: #b0302a; }
 #toolbar button.primary:hover { background: #d04040; }
 
 #toolbar select, #toolbar input[type=text] {
   padding: 4px 8px;
   border-radius: 4px;
-  border: 1px solid #5f8f5f;
-  background: #1e2e1e;
+  border: 1px solid #9a7a42;
+  background: #2a1e0e;
   color: #fff;
   font-size: 12px;
 }
 
 #edit-hint {
   font-size: 11px;
-  color: #a8c8a8;
+  color: #d4b483;
   font-style: italic;
 }
 
+/* ===========================
+   LAYOUT GERAL – VISUALIZAÇÃO
+   =========================== */
 #pages-container {
   margin-top: 52px;
   padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 24px;
 }
+
+/* Label de spread */
+.spread-label {
+  font-size: 11px;
+  color: #fff;
+  background: #7a5c2e;
+  padding: 3px 14px;
+  border-radius: 10px;
+  letter-spacing: 0.4px;
+  margin-bottom: -10px;
+  font-family: 'Source Sans 3', sans-serif;
+}
+
+/* ===========================
+   SPREAD A3 (duas páginas lado a lado)
+   =========================== */
+.spread {
+  display: flex;
+  gap: 0;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+  background: #fff;
+}
+
+/* Linha de dobra central */
+.spread::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: rgba(0,0,0,0.08);
+  pointer-events: none;
+}
+.spread { position: relative; }
 
 /* ===== PÁGINA ===== */
 .page {
@@ -86,12 +123,17 @@ body {
   background: #fff;
   padding: 10mm 10mm 12mm 10mm;
   position: relative;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+  flex-shrink: 0;
+}
+
+/* Separador entre páginas do spread */
+.spread .page:first-child {
+  border-right: 1px solid #ddd;
 }
 
 /* ===== HEADER ===== */
 .header {
-  border-bottom: 2.5px solid #5f6f5f;
+  border-bottom: 2.5px solid #8a6a2a;
   margin-bottom: 5px;
   padding-bottom: 3px;
 }
@@ -134,7 +176,7 @@ body {
 .title-center h1 {
   font-family: 'Libre Baskerville', serif;
   font-size: 34px;
-  color: #3d5c3d;
+  color: #7a4e10;
   margin: 0;
   line-height: 1.1;
 }
@@ -158,7 +200,7 @@ body {
   text-align: center;
   font-weight: 700;
   font-size: 15px;
-  color: #3d5c3d;
+  color: #7a4e10;
   margin: 4px 0 5px;
   font-family: 'Source Sans 3', sans-serif;
 }
@@ -185,11 +227,11 @@ body {
   font-family: 'Source Sans 3', sans-serif;
   font-weight: 700;
   font-size: 10.5px;
-  color: #3d5c3d;
-  border-bottom: 1.2px solid #5f7f5f;
+  color: #7a4e10;
+  border-bottom: 1.2px solid #8a6a2a;
   margin-bottom: 3px;
   text-transform: uppercase;
-  background: linear-gradient(to right, #e4ede4 55%, transparent);
+  background: linear-gradient(to right, #f5ead0 55%, transparent);
   padding: 2px 4px 1px;
   letter-spacing: 0.02em;
 }
@@ -212,10 +254,10 @@ p {
 .cp { color: #b0302a; font-weight: 700; }
 .t  { font-weight: 700; }
 .r  { color: #b0302a; font-weight: 700; }
-.l  { font-weight: 700; color: #3d5c3d; }
-.cc { font-weight: 700; color: #3d5c3d; }
-.num { color: #3d5c3d; font-weight: 700; }
-.subverde { color: #3d5c3d; font-weight: 700; }
+.l  { font-weight: 700; color: #7a4e10; }
+.cc { font-weight: 700; color: #7a4e10; }
+.num { color: #7a4e10; font-weight: 700; }
+.subverde { color: #7a4e10; font-weight: 700; }
 .bold { font-weight: 700; }
 .italic { font-style: italic; }
 .texto { text-indent: 7px; }
@@ -240,22 +282,22 @@ p {
 .footer-page .page-num {
   font-weight: 700;
   font-size: 11px;
-  color: #3d5c3d;
+  color: #7a4e10;
 }
 
 /* ===== LEITURAS DA SEMANA (rodapé p4) ===== */
 .leituras-semana {
   font-size: 8px;
-  color: #3d5c3d;
+  color: #7a4e10;
   margin-top: 5px;
-  border-top: 1px solid #9ab09a;
+  border-top: 1px solid #c8a860;
   padding-top: 3px;
 }
 
 .leituras-semana .ls-title {
   font-weight: 700;
   font-size: 8.5px;
-  color: #3d5c3d;
+  color: #7a4e10;
   margin-bottom: 2px;
 }
 
@@ -331,7 +373,7 @@ p {
 
 /* ===== CNBB BRASIL BOX ===== */
 .cnbb-brasil-box {
-  border-top: 1px solid #9ab09a;
+  border-top: 1px solid #c8a860;
   padding-top: 4px;
   margin-top: 6px;
 }
@@ -393,7 +435,7 @@ p {
   font-weight: 700;
   font-size: 10.5px;
   text-align: center;
-  border-bottom: 1px solid #5f7f5f;
+  border-bottom: 1px solid #8a6a2a;
   margin-bottom: 3px;
   padding-bottom: 2px;
   color: #222;
@@ -411,16 +453,52 @@ p {
 }
 
 body.edit-mode [contenteditable="true"]:hover {
-  background: #f0f7f0;
+  background: #fdf5e6;
   border-radius: 2px;
 }
 
-/* ===== PRINT ===== */
+/* ===== PRINT A3 SPREAD ===== */
 @media print {
   #toolbar { display: none !important; }
-  #pages-container { margin-top: 0; padding: 0; gap: 0; background: none; }
-  body { background: none; }
-  .page { box-shadow: none; margin: 0; page-break-after: always; }
+  body { background: none; margin: 0; padding: 0; }
+
+  /* Spread 1: Página 4 (esquerda) + Página 1 (direita) — frente da folha */
+  /* Spread 2: Página 2 (esquerda) + Página 3 (direita) — verso da folha */
+
+  #pages-container {
+    margin: 0;
+    padding: 0;
+    gap: 0;
+    display: block;
+  }
+
+  .spread-label { display: none; }
+
+  .spread {
+    display: flex;
+    width: 420mm;
+    height: 297mm;
+    page-break-after: always;
+    box-shadow: none;
+  }
+
+  .page {
+    width: 210mm;
+    height: 297mm;
+    min-height: unset;
+    overflow: hidden;
+    box-shadow: none;
+    flex-shrink: 0;
+  }
+
+  .spread .page:first-child {
+    border-right: 0.5px solid #ccc;
+  }
+}
+
+@page {
+  size: A3 landscape;
+  margin: 0;
 }
 
 </style>
@@ -438,9 +516,127 @@ body.edit-mode [contenteditable="true"]:hover {
 
 <div id="pages-container">
 
+<div class="spread-label">🖨 FRENTE — Spread 1: Página 4 (esquerda) | Página 1 (direita)</div>
+
+<!-- SPREAD 1: FRENTE DA FOLHA — P4 (esq) + P1 (dir) -->
+<div class="spread" id="spread1">
+
+<!-- PÁGINA 4 -->
 <!-- ============================================================ -->
+<div class="page" id="page4">
+
+  <div class="cols2">
+
+    <!-- COL 1 -->
+    <div>
+
+      <div class="section">
+        <div class="section-title" contenteditable="true">21. Depois da Comunhão</div>
+        <p><span class="cp">CP.</span> <span contenteditable="true">Oremos.</span> <span class="instrucao">(silêncio)</span> <span contenteditable="true">Fortificados por este alimento sagrado, nós vos damos graças, ó Deus, e imploramos a vossa clemência; fazei que perseverem na sinceridade do vosso amor aqueles que fortalecestes pela infusão do Espírito Santo. Por Cristo, nosso Senhor.</span></p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Amém.</span></p>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Ritos Finais</div>
+      </div>
+
+      <div class="section">
+        <div class="section-title" contenteditable="true">22. Breves Avisos <span class="instrucao">(caso necessário)</span></div>
+      </div>
+
+      <div class="section">
+        <div class="section-title" contenteditable="true">23. Bênção Final <span class="small-ref">(MR, p. 532, n. 7)</span></div>
+        <p><span class="cp">CP.</span> <span contenteditable="true">O Senhor esteja convosco.</span></p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Ele está no meio de nós.</span></p>
+        <p><span class="cp">CP.</span> <span contenteditable="true">Iluminai, ó Deus de bondade, a vossa família, para que, abraçando a vossa vontade, possa viver fazendo o bem. Por Cristo, nosso Senhor.</span></p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Amém.</span></p>
+        <p><span class="cp">CP.</span> <span contenteditable="true">Abençoe-vos Deus todo-poderoso, Pai e Filho ✠ e Espírito Santo.</span></p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Amém.</span></p>
+        <p><span class="cp">CP.</span> <span contenteditable="true">Glorificai o Senhor com vossa vida; ide em paz e o Senhor vos acompanhe.</span></p>
+        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Graças a Deus.</span></p>
+      </div>
+
+      <div class="section">
+        <div class="section-title" contenteditable="true">24. Canto Final <span class="instrucao">(a ser escolhido pela equipe de canto)</span></div>
+      </div>
+
+      <div class="section">
+        <div class="sugestoes-title" contenteditable="true">Sugestões para a Equipe de Celebração</div>
+        <div class="qr-row">
+          <div class="qr-text">
+            <p contenteditable="true">1. Para ter acesso às cifras e aos áudios dos cantos: aponte a câmera do seu celular para o QR Code ao lado ou acesse: edicoescnbb.blog.</p>
+          </div>
+          <div class="qr-box">QR</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="medita-title" contenteditable="true">Meditando a Palavra de Deus</div>
+        <div class="medita-autor" contenteditable="true">Pe. João Batista Gomes</div>
+        <p contenteditable="true">O Reino de Deus é como uma festa de casamento. As dez virgens, caracterizadas como cinco previdentes e cinco imprevidentes, representam a Igreja, as comunidades cristãs, cada cristão, em síntese, todos que caminham para o encontro com o "esperado" Noivo, Jesus. O noivo da parábola chegou de repente, assim como inesperadamente Jesus voltará. As mulheres dormiam e, quando acordaram, as previdentes entraram para a festa e as imprevidentes, por estarem despreparadas, correram em busca do óleo, mas era tarde demais, pois a porta da festa se fechou. No momento da chegada do noivo, ninguém estará em condição de ajudar ao outro, pois a questão é entre cada virgem e o noivo, entre</p>
+        <p contenteditable="true">cada pessoa e o Senhor. As pessoas devem se ajudar, corrigir umas às outras, alertar quanto à preparação, enquanto estão a caminho: está se preparando para levar óleo suficiente? O óleo representa as boas obras realizadas durante a vida, a capacidade de perdoar, de acolher o próximo, o espírito e a prática da solidariedade e da misericórdia. São essas atitudes que vão preenchendo a vasilha com óleo suficiente para a espera e para a festa nupcial. A comunidade cristã deve viver neste mundo esperando vigilante o retorno do Senhor, pois ninguém sabe o momento de seu retorno (Mt 24,36). É tarefa cristã ajudar uns aos outros enquanto possível, fazendo a vontade do Pai, preparando as lâmpadas e o óleo do amor suficiente para o encontro pessoal com o Senhor.</p>
+      </div>
+
+    </div><!-- /col1 -->
+
+    <!-- COL 2 -->
+    <div>
+
+      <div class="cnbb-brasil-box">
+        <div class="cnbb-brasil-title" contenteditable="true">Igreja no Brasil</div>
+        <div class="cnbb-brasil-sub" contenteditable="true">Viver e saber esperar com esperança</div>
+
+        <p contenteditable="true">O Senhor Jesus, no texto do Evangelho escrito por São Mateus (Mt 25,1-13), nos fala do final dos tempos, da sua vinda definitiva e de uma espera indefinida. O mais importante é que tudo depende de quanto cada um está preparado para essa longa espera. Por isso a importância de nos mantermos vigilantes, porque não sabemos a hora em que o Senhor nos chamará. O estar vigilantes é um modo que temos para viver a nossa fé de forma responsável e responder ao convite das núpcias que a sabedoria de Deus nos oferece. O cristão, na sua peregrinação para a Casa do Pai, jamais poderá deixar de estar atento, de lutar e resistir àquilo que o impede de acolher o Senhor em sua vida ou que é um empecilho à vivência dos valores do Evangelho. Quando, no nosso dia a dia, sentimos sede de Deus, é algo muito positivo, porque significa que não nos resignamos à indiferença, à apatia ou ao desânimo. Somente quem tem essa sede de Deus pode vigiar ou ficar à espera indefinida da sua vinda, lembrando que é o amor que nos mantém acordados e vigilantes. Penso que, no coração de cada pessoa, está presente o desejo de viver, por mais duras que sejam as suas condições sociais. Não só viver, mas viver em um mundo onde reina a paz, o amor, o diálogo, a acolhida, mesmo em um ambiente marcado por tantas formas de violência, que levam a vida a ser vivida na incerteza e na fragilidade do dia a dia. Tenhamos presente que a Palavra de Deus não esmorece, nem perde a sua força diante de tantos sinais de morte que marcam a nossa sociedade, ela nos convida a ser otimistas e a nos empenhar na construção de um mundo novo com altruísmo, responsabilidade e esperança. (...)</p>
+
+        <p class="instrucao" contenteditable="true">(Leia na íntegra: https://www.cnbb.org.br/viver-e-saber-esperar-com-esperanca/)</p>
+
+        <div class="dom-jose" contenteditable="true">Dom José Gislon</div>
+        <div class="dom-jose-cargo" contenteditable="true">Bispo de Caxias do Sul-RS</div>
+      </div>
+
+      <!-- Leituras da semana -->
+      <div class="leituras-semana">
+        <div class="ls-title" contenteditable="true">Leituras da Semana (32ª Semana do Tempo Comum)</div>
+        <p><span style="color:#b0302a;font-weight:700;">Seg.:</span> <span contenteditable="true">Sb 1,1-7; Sl 138(139),1-3.4-6.7-8.9-10 (R. 24b); Lc 17,1-6</span></p>
+        <p><span style="color:#b0302a;font-weight:700;">Ter.:</span> <span contenteditable="true">Sb 2,23-3,9; Sl 33(34),2-3.16-17.18-19 (R. 2a); Lc 17,7-10</span></p>
+        <p><span style="color:#b0302a;font-weight:700;">Qua.:</span> <span contenteditable="true">Sb 6,1-11; Sl 81(82),3-4.6-7 (R. 8a); Lc 17,11-19</span></p>
+        <p><span style="color:#b0302a;font-weight:700;">Qui.:</span> <span contenteditable="true">Sb 7,22-8,1; Sl 118(119),89.90.91.130.135.175 (R. 89a); Lc 17,20-25</span></p>
+        <p><span style="color:#b0302a;font-weight:700;">Sex.:</span> <span contenteditable="true">Santa Isabel da Hungria, religiosa, memória – Sb 13,1-9; Sl 18A(19),2-3.4-5 (R. 2a); Lc 17,26-37</span></p>
+        <p><span style="color:#b0302a;font-weight:700;">Sáb.:</span> <span contenteditable="true">Sb 18,14-16;19,6-9; Sl 104(105),2-3.36-37.42-43 (R. 5a); Lc 18,1-8</span></p>
+        <p><span style="color:#b0302a;font-weight:700;">Dom.:</span> <span contenteditable="true">33º Domingo do Tempo Comum: Pr 31,10-13.19-20.30-31; Sl 127(128),1-2.3.4-5ab (R. cf. 1a); 1Ts 5,1-6; Mt 25,14-30 <em>ou mais breve</em> 25,14-15.19-21</span></p>
+      </div>
+
+    </div><!-- /col2 -->
+
+  </div>
+
+  <!-- CRÉDITOS -->
+  <div class="credits-bar">
+    <div>
+      <p><strong>Direção-Geral:</strong> <span contenteditable="true">Mons. Jamil Alves de Souza</span></p>
+      <p><strong>Organização:</strong> <span contenteditable="true">Frei Telles Ramon, O. de M.</span></p>
+      <p><strong>Edição:</strong> <span contenteditable="true">João Vítor Gonzaga Moura</span></p>
+      <p><strong>Revisão:</strong> <span contenteditable="true">Sarah Rodrigues e Vinícius Caetano</span></p>
+    </div>
+    <div>
+      <p><strong>Ilustrações:</strong> <span contenteditable="true">Leonardo Cardoso</span></p>
+      <p><strong>Projeto gráfico:</strong> <span contenteditable="true">Henrique Billygran Santos de Jesus</span></p>
+      <p><strong>Diagramação:</strong> <span contenteditable="true">Suelen Rodrigues da Silva</span></p>
+      <p><strong>Impressão:</strong> <span contenteditable="true">Foxy Editora Gráfica</span></p>
+    </div>
+  </div>
+
+  <div class="footer-page">
+    <span class="page-num">4</span>
+    <div class="cnbb-footer" contenteditable="true">
+      Edições CNBB – SAAN, Quadra 3, Lotes 590/600 – CEP: 70.632-350 – Zona Industrial – Brasília-DF<br>
+      Televendas: 0800 940 3019 · (61) 2193 3019 / assinaturas@edicoescnbb.com.br
+    </div>
+  </div>
+
+</div><!-- /page4 -->
+
 <!-- PÁGINA 1 -->
-<!-- ============================================================ -->
 <div class="page" id="page1">
 
   <div class="header">
@@ -569,6 +765,14 @@ body.edit-mode [contenteditable="true"]:hover {
 </div><!-- /page1 -->
 
 <!-- ============================================================ -->
+
+</div><!-- /spread1 -->
+
+<div class="spread-label">🖨 VERSO — Spread 2: Página 2 (esquerda) | Página 3 (direita)</div>
+
+<!-- SPREAD 2: VERSO DA FOLHA — P2 (esq) + P3 (dir) -->
+<div class="spread" id="spread2">
+
 <!-- PÁGINA 2 -->
 <!-- ============================================================ -->
 <div class="page" id="page2">
@@ -681,6 +885,7 @@ body.edit-mode [contenteditable="true"]:hover {
 </div><!-- /page2 -->
 
 <!-- ============================================================ -->
+
 <!-- PÁGINA 3 -->
 <!-- ============================================================ -->
 <div class="page" id="page3">
@@ -792,120 +997,8 @@ body.edit-mode [contenteditable="true"]:hover {
 </div><!-- /page3 -->
 
 <!-- ============================================================ -->
-<!-- PÁGINA 4 -->
-<!-- ============================================================ -->
-<div class="page" id="page4">
 
-  <div class="cols2">
-
-    <!-- COL 1 -->
-    <div>
-
-      <div class="section">
-        <div class="section-title" contenteditable="true">21. Depois da Comunhão</div>
-        <p><span class="cp">CP.</span> <span contenteditable="true">Oremos.</span> <span class="instrucao">(silêncio)</span> <span contenteditable="true">Fortificados por este alimento sagrado, nós vos damos graças, ó Deus, e imploramos a vossa clemência; fazei que perseverem na sinceridade do vosso amor aqueles que fortalecestes pela infusão do Espírito Santo. Por Cristo, nosso Senhor.</span></p>
-        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Amém.</span></p>
-      </div>
-
-      <div class="section">
-        <div class="section-title">Ritos Finais</div>
-      </div>
-
-      <div class="section">
-        <div class="section-title" contenteditable="true">22. Breves Avisos <span class="instrucao">(caso necessário)</span></div>
-      </div>
-
-      <div class="section">
-        <div class="section-title" contenteditable="true">23. Bênção Final <span class="small-ref">(MR, p. 532, n. 7)</span></div>
-        <p><span class="cp">CP.</span> <span contenteditable="true">O Senhor esteja convosco.</span></p>
-        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Ele está no meio de nós.</span></p>
-        <p><span class="cp">CP.</span> <span contenteditable="true">Iluminai, ó Deus de bondade, a vossa família, para que, abraçando a vossa vontade, possa viver fazendo o bem. Por Cristo, nosso Senhor.</span></p>
-        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Amém.</span></p>
-        <p><span class="cp">CP.</span> <span contenteditable="true">Abençoe-vos Deus todo-poderoso, Pai e Filho ✠ e Espírito Santo.</span></p>
-        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Amém.</span></p>
-        <p><span class="cp">CP.</span> <span contenteditable="true">Glorificai o Senhor com vossa vida; ide em paz e o Senhor vos acompanhe.</span></p>
-        <p><span class="t">T.</span> <span class="bold" contenteditable="true">Graças a Deus.</span></p>
-      </div>
-
-      <div class="section">
-        <div class="section-title" contenteditable="true">24. Canto Final <span class="instrucao">(a ser escolhido pela equipe de canto)</span></div>
-      </div>
-
-      <div class="section">
-        <div class="sugestoes-title" contenteditable="true">Sugestões para a Equipe de Celebração</div>
-        <div class="qr-row">
-          <div class="qr-text">
-            <p contenteditable="true">1. Para ter acesso às cifras e aos áudios dos cantos: aponte a câmera do seu celular para o QR Code ao lado ou acesse: edicoescnbb.blog.</p>
-          </div>
-          <div class="qr-box">QR</div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="medita-title" contenteditable="true">Meditando a Palavra de Deus</div>
-        <div class="medita-autor" contenteditable="true">Pe. João Batista Gomes</div>
-        <p contenteditable="true">O Reino de Deus é como uma festa de casamento. As dez virgens, caracterizadas como cinco previdentes e cinco imprevidentes, representam a Igreja, as comunidades cristãs, cada cristão, em síntese, todos que caminham para o encontro com o "esperado" Noivo, Jesus. O noivo da parábola chegou de repente, assim como inesperadamente Jesus voltará. As mulheres dormiam e, quando acordaram, as previdentes entraram para a festa e as imprevidentes, por estarem despreparadas, correram em busca do óleo, mas era tarde demais, pois a porta da festa se fechou. No momento da chegada do noivo, ninguém estará em condição de ajudar ao outro, pois a questão é entre cada virgem e o noivo, entre</p>
-        <p contenteditable="true">cada pessoa e o Senhor. As pessoas devem se ajudar, corrigir umas às outras, alertar quanto à preparação, enquanto estão a caminho: está se preparando para levar óleo suficiente? O óleo representa as boas obras realizadas durante a vida, a capacidade de perdoar, de acolher o próximo, o espírito e a prática da solidariedade e da misericórdia. São essas atitudes que vão preenchendo a vasilha com óleo suficiente para a espera e para a festa nupcial. A comunidade cristã deve viver neste mundo esperando vigilante o retorno do Senhor, pois ninguém sabe o momento de seu retorno (Mt 24,36). É tarefa cristã ajudar uns aos outros enquanto possível, fazendo a vontade do Pai, preparando as lâmpadas e o óleo do amor suficiente para o encontro pessoal com o Senhor.</p>
-      </div>
-
-    </div><!-- /col1 -->
-
-    <!-- COL 2 -->
-    <div>
-
-      <div class="cnbb-brasil-box">
-        <div class="cnbb-brasil-title" contenteditable="true">Igreja no Brasil</div>
-        <div class="cnbb-brasil-sub" contenteditable="true">Viver e saber esperar com esperança</div>
-
-        <p contenteditable="true">O Senhor Jesus, no texto do Evangelho escrito por São Mateus (Mt 25,1-13), nos fala do final dos tempos, da sua vinda definitiva e de uma espera indefinida. O mais importante é que tudo depende de quanto cada um está preparado para essa longa espera. Por isso a importância de nos mantermos vigilantes, porque não sabemos a hora em que o Senhor nos chamará. O estar vigilantes é um modo que temos para viver a nossa fé de forma responsável e responder ao convite das núpcias que a sabedoria de Deus nos oferece. O cristão, na sua peregrinação para a Casa do Pai, jamais poderá deixar de estar atento, de lutar e resistir àquilo que o impede de acolher o Senhor em sua vida ou que é um empecilho à vivência dos valores do Evangelho. Quando, no nosso dia a dia, sentimos sede de Deus, é algo muito positivo, porque significa que não nos resignamos à indiferença, à apatia ou ao desânimo. Somente quem tem essa sede de Deus pode vigiar ou ficar à espera indefinida da sua vinda, lembrando que é o amor que nos mantém acordados e vigilantes. Penso que, no coração de cada pessoa, está presente o desejo de viver, por mais duras que sejam as suas condições sociais. Não só viver, mas viver em um mundo onde reina a paz, o amor, o diálogo, a acolhida, mesmo em um ambiente marcado por tantas formas de violência, que levam a vida a ser vivida na incerteza e na fragilidade do dia a dia. Tenhamos presente que a Palavra de Deus não esmorece, nem perde a sua força diante de tantos sinais de morte que marcam a nossa sociedade, ela nos convida a ser otimistas e a nos empenhar na construção de um mundo novo com altruísmo, responsabilidade e esperança. (...)</p>
-
-        <p class="instrucao" contenteditable="true">(Leia na íntegra: https://www.cnbb.org.br/viver-e-saber-esperar-com-esperanca/)</p>
-
-        <div class="dom-jose" contenteditable="true">Dom José Gislon</div>
-        <div class="dom-jose-cargo" contenteditable="true">Bispo de Caxias do Sul-RS</div>
-      </div>
-
-      <!-- Leituras da semana -->
-      <div class="leituras-semana">
-        <div class="ls-title" contenteditable="true">Leituras da Semana (32ª Semana do Tempo Comum)</div>
-        <p><span style="color:#b0302a;font-weight:700;">Seg.:</span> <span contenteditable="true">Sb 1,1-7; Sl 138(139),1-3.4-6.7-8.9-10 (R. 24b); Lc 17,1-6</span></p>
-        <p><span style="color:#b0302a;font-weight:700;">Ter.:</span> <span contenteditable="true">Sb 2,23-3,9; Sl 33(34),2-3.16-17.18-19 (R. 2a); Lc 17,7-10</span></p>
-        <p><span style="color:#b0302a;font-weight:700;">Qua.:</span> <span contenteditable="true">Sb 6,1-11; Sl 81(82),3-4.6-7 (R. 8a); Lc 17,11-19</span></p>
-        <p><span style="color:#b0302a;font-weight:700;">Qui.:</span> <span contenteditable="true">Sb 7,22-8,1; Sl 118(119),89.90.91.130.135.175 (R. 89a); Lc 17,20-25</span></p>
-        <p><span style="color:#b0302a;font-weight:700;">Sex.:</span> <span contenteditable="true">Santa Isabel da Hungria, religiosa, memória – Sb 13,1-9; Sl 18A(19),2-3.4-5 (R. 2a); Lc 17,26-37</span></p>
-        <p><span style="color:#b0302a;font-weight:700;">Sáb.:</span> <span contenteditable="true">Sb 18,14-16;19,6-9; Sl 104(105),2-3.36-37.42-43 (R. 5a); Lc 18,1-8</span></p>
-        <p><span style="color:#b0302a;font-weight:700;">Dom.:</span> <span contenteditable="true">33º Domingo do Tempo Comum: Pr 31,10-13.19-20.30-31; Sl 127(128),1-2.3.4-5ab (R. cf. 1a); 1Ts 5,1-6; Mt 25,14-30 <em>ou mais breve</em> 25,14-15.19-21</span></p>
-      </div>
-
-    </div><!-- /col2 -->
-
-  </div>
-
-  <!-- CRÉDITOS -->
-  <div class="credits-bar">
-    <div>
-      <p><strong>Direção-Geral:</strong> <span contenteditable="true">Mons. Jamil Alves de Souza</span></p>
-      <p><strong>Organização:</strong> <span contenteditable="true">Frei Telles Ramon, O. de M.</span></p>
-      <p><strong>Edição:</strong> <span contenteditable="true">João Vítor Gonzaga Moura</span></p>
-      <p><strong>Revisão:</strong> <span contenteditable="true">Sarah Rodrigues e Vinícius Caetano</span></p>
-    </div>
-    <div>
-      <p><strong>Ilustrações:</strong> <span contenteditable="true">Leonardo Cardoso</span></p>
-      <p><strong>Projeto gráfico:</strong> <span contenteditable="true">Henrique Billygran Santos de Jesus</span></p>
-      <p><strong>Diagramação:</strong> <span contenteditable="true">Suelen Rodrigues da Silva</span></p>
-      <p><strong>Impressão:</strong> <span contenteditable="true">Foxy Editora Gráfica</span></p>
-    </div>
-  </div>
-
-  <div class="footer-page">
-    <span class="page-num">4</span>
-    <div class="cnbb-footer" contenteditable="true">
-      Edições CNBB – SAAN, Quadra 3, Lotes 590/600 – CEP: 70.632-350 – Zona Industrial – Brasília-DF<br>
-      Televendas: 0800 940 3019 · (61) 2193 3019 / assinaturas@edicoescnbb.com.br
-    </div>
-  </div>
-
-</div><!-- /page4 -->
+</div><!-- /spread2 -->
 
 </div><!-- /pages-container -->
 
