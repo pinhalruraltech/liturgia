@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Igreja em Oração – Editor</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+/* =====================================================
+   RESET
+===================================================== */
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  background:#b0a898;
+  font-family:'Source Sans 3', sans-serif;
+}
+
+/* =====================================================
+   TOOLBAR
+===================================================== */
+#toolbar{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+
+  z-index:1000;
+
+  background:#3b2e1e;
+  color:#fff;
+
+  padding:8px 16px;
+
+  display:flex;
+  gap:10px;
+  align-items:center;
+
+  box-shadow:0 2px 8px rgba(0,0,0,.35);
+}
+
+#toolbar button{
+  background:#7a5c2e;
+  border:none;
+  color:#fff;
+  padding:6px 12px;
+  border-radius:4px;
+  cursor:pointer;
+}
+
+#toolbar button:hover{
+  background:#9a7a42;
+}
+
+/* =====================================================
+   ÁREA GERAL
+===================================================== */
+#editor{
+  padding-top:70px;
+
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+
+  align-items:center;
+
+  padding-bottom:40px;
+}
+
+/* =====================================================
+   SPREAD A3
+===================================================== */
+.spread{
+  width:420mm;
+  height:297mm;
+
+  background:#fff;
+
+  display:flex;
+
+  position:relative;
+
+  box-shadow:0 4px 24px rgba(0,0,0,.35);
+}
+
+/* linha da dobra */
+.spread::after{
+  content:'';
+
+  position:absolute;
+
+  top:0;
+  bottom:0;
+
+  left:50%;
+
+  width:1px;
+
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(0,0,0,.18),
+      rgba(0,0,0,.18) 5px,
+      transparent 5px,
+      transparent 10px
+    );
+}
+
+/* =====================================================
+   PÁGINA
+===================================================== */
+.page{
+  width:210mm;
+  height:297mm;
+
+  padding:7mm;
+
+  position:relative;
+
+  overflow:hidden;
+
+  flex-shrink:0;
+}
+
+.page:first-child{
+  border-right:1px solid #ddd;
+}
+
+/* =====================================================
+   HEADER
+===================================================== */
+.header{
+  border-bottom:2px solid #8a6a2a;
+  padding-bottom:4px;
+  margin-bottom:6px;
+}
+
+.header-top{
+  display:grid;
+  grid-template-columns:80px 1fr 80px;
+  gap:6px;
+  align-items:center;
+}
+
+.logo{
+  width:80px;
+  height:60px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border:1px dashed #ccc;
+
+  font-size:10px;
+  color:#777;
+}
+
+.title-center{
+  text-align:center;
+}
+
+.title-center h1{
+  margin:0;
+
+  font-family:'Libre Baskerville', serif;
+  font-size:33px;
+
+  color:#7a4e10;
+}
+
+.subtitle{
+  font-size:13px;
+  font-weight:600;
+}
+
+.date-line{
+  font-size:10px;
+  color:#555;
+}
+
+.domingo-title{
+  text-align:center;
+  margin-top:4px;
+
+  font-size:15px;
+  font-weight:700;
+
+  color:#7a4e10;
+}
+
+/* =====================================================
+   ÁREA DE CONTEÚDO
+===================================================== */
+.content-flow{
+
+  column-count:3;
+  column-gap:8px;
+
+  height:245mm;
+
+  overflow:hidden;
+}
+
+/* páginas internas com 2 colunas */
+.page.interna .content-flow{
+  column-count:2;
+}
+
+/* =====================================================
+   BLOCOS
+===================================================== */
+.section{
+  break-inside:avoid;
+
+  margin-bottom:5px;
+}
+
+.section-title{
+  background:#d4a84b;
+
+  color:#5a3200;
+
+  font-size:10px;
+  font-weight:700;
+
+  padding:2px 4px;
+
+  border-bottom:1px solid #7a4e10;
+
+  text-transform:uppercase;
+
+  margin-bottom:3px;
+}
+
+/* =====================================================
+   TEXTO
+===================================================== */
+p{
+  margin:1.5px 0;
+
+  font-size:8.7px;
+  line-height:1.12;
+
+  text-align:justify;
+}
+
+.cp{
+  color:#b0302a;
+  font-weight:700;
+}
+
+.t{
+  font-weight:700;
+}
+
+.r{
+  color:#b0302a;
+  font-weight:700;
+}
+
+.l{
+  color:#7a4e10;
+  font-weight:700;
+}
+
+.num{
+  color:#7a4e10;
+  font-weight:700;
+}
+
+.instrucao{
+  color:#b0302a;
+  font-style:italic;
+  font-size:8px;
+}
+
+.bold{
+  font-weight:700;
+}
+
+.autor{
+  font-size:8px;
+  color:#555;
+  font-style:italic;
+}
+
+/* =====================================================
+   RODAPÉ
+===================================================== */
+.footer-page{
+  position:absolute;
+
+  left:7mm;
+  right:7mm;
+  bottom:5mm;
+
+  border-top:1px solid #ccc;
+
+  padding-top:3px;
+
+  display:flex;
+  justify-content:space-between;
+
+  font-size:8px;
+  color:#555;
+}
+
+.page-num{
+  font-weight:700;
+  color:#7a4e10;
+}
+
+/* =====================================================
+   EDITÁVEL
+===================================================== */
+[contenteditable="true"]{
+  outline:none;
+}
+
+[contenteditable="true"]:focus{
+  background:#fff9db;
+}
+
+/* =====================================================
+   PRINT
+===================================================== */
+@media print{
+
+  #toolbar{
+    display:none;
+  }
+
+  body{
+    background:none;
+  }
+
+  #editor{
+    padding:0;
+    gap:0;
+  }
+
+  .spread{
+    box-shadow:none;
+    page-break-after:always;
+  }
+}
+
+@page{
+  size:A3 landscape;
+  margin:0;
+}
+
+</style>
+</head>
+<body>
+
+<!-- =====================================================
+     TOOLBAR
+===================================================== -->
+<div id="toolbar">
+
+  <button onclick="document.execCommand('bold')">Negrito</button>
+
+  <button onclick="document.execCommand('italic')">Itálico</button>
+
+  <button onclick="window.print()">Imprimir</button>
+
+</div>
+
+<!-- =====================================================
+     EDITOR
+===================================================== -->
+<div id="editor">
+
+  <!-- ==========================================
+       SPREAD EXTERNO
+       Página 4 + Página 1
+  =========================================== -->
+  <div class="spread">
+
+    <!-- PÁGINA 4 -->
+    <div class="page externa">
+
+      <div class="content-flow" contenteditable="true">
+
+        <div class="section">
+          <div class="section-title">21. Depois da Comunhão</div>
+          <p><span class="cp">CP.</span> Oremos...</p>
+        </div>
+
+        <div class="section">
+          <div class="section-title">22. Avisos</div>
+          <p>Texto livre...</p>
+        </div>
+
+        <div class="section">
+          <div class="section-title">23. Bênção Final</div>
+          <p>Texto livre...</p>
+        </div>
+
+      </div>
+
+      <div class="footer-page">
+        <span>CNBB – Igreja em Oração</span>
+        <span class="page-num">4</span>
+      </div>
+
+    </div>
+
+    <!-- PÁGINA 1 -->
+    <div class="page externa">
+
+      <div class="header">
+
+        <div class="header-top">
+
+          <div class="logo">CNBB</div>
+
+          <div class="title-center">
+            <h1>Igreja em Oração</h1>
+            <div class="subtitle">Semanário litúrgico-catequético</div>
+            <div class="date-line">Data da celebração</div>
+          </div>
+
+          <div class="logo"></div>
+
+        </div>
+
+        <div class="domingo-title">
+          32º Domingo do Tempo Comum
+        </div>
+
+      </div>
+
+      <div class="content-flow" contenteditable="true">
+
+        <div class="section">
+          <div class="section-title">Ritos Iniciais</div>
+
+          <p class="instrucao">
+            (De forma orante, repete-se algumas vezes)
+          </p>
+
+          <p>
+            Cristo, do mundo a Luz...
+          </p>
+        </div>
+
+        <div class="section">
+          <div class="section-title">1. Canto de Abertura</div>
+
+          <p>
+            <span class="r">R.</span>
+            A ti, Senhor, meu pedido...
+          </p>
+        </div>
+
+        <div class="section">
+          <div class="section-title">2. Saudação</div>
+
+          <p>
+            <span class="cp">CP.</span>
+            Em nome do Pai...
+          </p>
+        </div>
+
+        <div class="section">
+          <div class="section-title">3. Introdução ao Mistério Celebrado</div>
+
+          <p>
+            Texto da introdução...
+          </p>
+        </div>
+
+        <div class="section">
+          <div class="section-title">4. Ato Penitencial</div>
+
+          <p>
+            Texto livre...
+          </p>
+        </div>
+
+      </div>
+
+      <div class="footer-page">
+        <span>Igreja em Oração – Edições CNBB</span>
+        <span class="page-num">1</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ==========================================
+       SPREAD INTERNO
+       Página 2 + Página 3
+  =========================================== -->
+  <div class="spread">
+
+    <!-- PÁGINA 2 -->
+    <div class="page interna">
+
+      <div class="content-flow" contenteditable="true">
+
+        <div class="section">
+          <div class="section-title">9. Segunda Leitura</div>
+
+          <p>
+            Conteúdo contínuo...
+          </p>
+        </div>
+
+        <div class="section">
+          <div class="section-title">10. Evangelho</div>
+
+          <p>
+            Conteúdo contínuo...
+          </p>
+        </div>
+
+      </div>
+
+      <div class="footer-page">
+        <span>Igreja em Oração – Edições CNBB</span>
+        <span class="page-num">2</span>
+      </div>
+
+    </div>
+
+    <!-- PÁGINA 3 -->
+    <div class="page interna">
+
+      <div class="content-flow" contenteditable="true">
+
+        <div class="section">
+          <div class="section-title">Liturgia Eucarística</div>
+
+          <p>
+            Conteúdo contínuo...
+          </p>
+        </div>
+
+      </div>
+
+      <div class="footer-page">
+        <span>Igreja em Oração – Edições CNBB</span>
+        <span class="page-num">3</span>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>
