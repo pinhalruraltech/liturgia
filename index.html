@@ -120,14 +120,22 @@ body {
 .page {
   width: 210mm;
   min-height: 297mm;
-  height: 297mm;
+
   background: #fff;
-  padding: 7mm 8mm 7mm 8mm;
+
+  padding: 6mm 7mm 6mm 7mm;
+
   position: relative;
+
   flex-shrink: 0;
-  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
 }
 
+.footer-page{
+   margin-top:auto;
+}
 /* Separador entre páginas do spread */
 .spread .page:first-child {
   border-right: 1px solid #ddd;
