@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Igreja em Oração – Editor</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ===================== RESET ===================== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ===================== TOOLBAR ===================== */
+#toolbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+  background: #2c1f0e;
+  color: #fff;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 4px;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-family: 'Source Sans 3', sans-serif;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  min-height: 40px;
+}
+#toolbar .tb-label {
+  font-weight: 700; font-size: 12px; color: #d4a84b;
+  margin-right: 4px; white-space: nowrap;
+}
+#toolbar .tb-sep { width: 1px; height: 20px; background: #554433; margin: 0 3px; }
+.tb-btn {
+  background: #5a3a1a; color: #f0e0c0; border: 1px solid #7a5a2a;
+  border-radius: 3px; padding: 3px 8px; cursor: pointer; font-size: 11px;
+  font-family: 'Source Sans 3', sans-serif; min-width: 28px; text-align: center;
+  transition: background 0.15s;
+}
+.tb-btn:hover { background: #8a5a20; }
+.tb-btn.active { background: #c87820; border-color: #d4a84b; }
+.tb-select {
+  background: #3a2a10; color: #f0e0c0; border: 1px solid #7a5a2a;
+  border-radius: 3px; padding: 3px 5px; font-size: 11px; cursor: pointer;
+  font-family: 'Source Sans 3', sans-serif;
+}
+.tb-color-wrap { display: flex; align-items: center; gap: 3px; font-size: 10px; color: #c0a080; }
+.tb-color-wrap input[type=color] {
+  width: 26px; height: 22px; padding: 1px; border: 1px solid #7a5a2a;
+  border-radius: 3px; cursor: pointer; background: #3a2a10;
+}
+.tb-print { background: #8b1a1a !important; border-color: #c02020 !important; }
+.tb-print:hover { background: #b02020 !important; }
+
+/* ===================== BODY / CONTAINER ===================== */
+body {
+  background: #9a8870;
+  font-family: 'Source Sans 3', sans-serif;
+  padding-top: 46px;
+}
+#pages-container {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 20px; padding: 16px 10px 32px;
+}
+.spread-label {
+  font-size: 10px; color: #fff; background: #6a4a1e;
+  padding: 3px 14px; border-radius: 10px;
+  margin-bottom: -10px; font-family: 'Source Sans 3', sans-serif;
+  letter-spacing: 0.3px;
+}
+
+/* ===================== SPREAD A3 ===================== */
+.spread {
+  display: flex; gap: 0; position: relative;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.45);
+}
+.spread::after {
+  content: ''; position: absolute; top: 0; bottom: 0; left: 50%;
+  width: 1px; background: rgba(0,0,0,0.1); pointer-events: none;
+}
+
+/* ===================== PÁGINA A5 (210×297mm) ===================== */
+.page {
+  width: 210mm;
+  height: 297mm;
+  background: #fff;
+  padding: 7mm 8mm 6mm 8mm;
+  position: relative;
+  flex-shrink: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.spread .page:first-child { border-right: 1px solid #ddd; }
+
+/* ===================== HEADER ===================== */
+.header {
+  border-bottom: 2.5px solid #8a6a2a;
+  padding-bottom: 2px; margin-bottom: 4px; flex-shrink: 0;
+}
+.header-grid {
+  display: grid; grid-template-columns: 75px 1fr 75px;
+  align-items: center; gap: 4px;
+}
+.logo-box { display: flex; align-items: center; justify-content: center; }
+.logo-img { max-height: 60px; max-width: 75px; object-fit: contain; }
+.logo-placeholder {
+  height: 60px; width: 75px; border: 1px dashed #bbb;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 8px; color: #aaa;
+}
+.logo-box-right { width: 75px; }
+.title-center { text-align: center; }
+.title-center h1 {
+  font-family: 'Libre Baskerville', serif; font-size: 30px;
+  color: #7a4e10; margin: 0; line-height: 1;
+}
+.title-center .subtitle-pub {
+  font-size: 12px; color: #555; font-weight: 600; margin: 1px 0;
+}
+.title-center .date-line { font-size: 9px; color: #444; }
+.domingo-title {
+  text-align: center; font-weight: 700; font-size: 14px;
+  color: #7a4e10; margin: 3px 0 0;
+}
+
+/* ===================== COLUNAS ===================== */
+.page-body { flex: 1; overflow: hidden; min-height: 0; }
+.cols3 { display: grid; grid-template-columns: 0.93fr 0.93fr 1.14fr; gap: 6px; height: 100%; }
+.cols2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; height: 100%; }
+.col { overflow: hidden; }
+
+/* ===================== SEÇÕES ===================== */
+.section { margin-bottom: 4px; }
+.section-title {
+  font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 10px;
+  color: #3a1e00; border-bottom: 1.5px solid #7a4e10;
+  text-transform: uppercase; letter-spacing: 0.03em;
+  background: #d4a84b; display: block; width: 100%;
+  padding: 2px 4px; margin-bottom: 2px;
+}
+
+/* ===================== TEXTO ===================== */
+p {
+  font-family: 'Source Sans 3', sans-serif; font-size: 9.8px;
+  line-height: 1.28; margin: 1.5px 0; text-align: justify;
+}
+.instrucao { font-size: 9px; color: #b0302a; font-style: italic; }
+.cp { color: #b0302a; font-weight: 700; }
+.t  { font-weight: 700; }
+.r  { color: #b0302a; font-weight: 700; }
+.l  { font-weight: 700; color: #7a4e10; }
+.cc { font-weight: 700; color: #7a4e10; }
+.num { color: #7a4e10; font-weight: 700; }
+.sv { color: #7a4e10; font-weight: 700; }
+.bold { font-weight: 700; }
+.texto { text-indent: 6px; }
+.autor { font-size: 8.5px; color: #555; font-style: italic; }
+.brackets { font-style: italic; font-size: 9px; color: #666; }
+.small-ref { font-size: 8px; color: #666; font-style: italic; }
+
+/* ===================== ILUSTRAÇÃO ===================== */
+.illus-wrapper { text-align: center; margin-bottom: 4px; width: 100%; }
+.illus-img-real { width: 100%; max-height: 88px; object-fit: contain; display: block; }
+.illus-placeholder {
+  border: 1px dashed #c8a860; height: 88px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; color: #b0302a; font-style: italic; background: #fdf8ee;
+}
+
+/* ===================== NOTA MUSICAL ===================== */
+.nota-musical {
+  border: 1px solid #ccc; background: #f5f5f5;
+  text-align: center; font-size: 8px; color: #888; padding: 4px; margin: 2px 0;
+}
+
+/* ===================== CAIXAS ESPECIAIS ===================== */
+.sugestoes-title {
+  font-weight: 700; font-size: 10px; text-align: center;
+  border-bottom: 1px solid #8a6a2a; margin-bottom: 2px;
+  padding-bottom: 2px; color: #222;
+}
+.qr-row { display: flex; gap: 5px; align-items: flex-start; margin-top: 2px; }
+.qr-text { flex: 1; }
+.qr-box {
+  width: 40px; height: 40px; border: 1px solid #ccc; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 7px; color: #aaa; background: #f5f5f5;
+}
+.medita-title { font-weight: 700; font-size: 10px; text-align: center; color: #222; }
+.medita-autor { text-align: center; font-size: 9px; font-style: italic; color: #555; margin-bottom: 2px; }
+.cnbb-brasil-box { border-top: 1px solid #c8a860; padding-top: 4px; margin-top: 4px; }
+.cnbb-brasil-title { font-weight: 700; font-size: 10px; text-align: center; color: #222; }
+.cnbb-brasil-sub { text-align: center; font-size: 9px; color: #555; font-style: italic; margin-bottom: 2px; }
+.dom-jose { text-align: right; font-weight: 700; font-size: 10px; margin-top: 3px; }
+.dom-jose-cargo { text-align: right; font-size: 9px; color: #555; }
+
+/* ===================== RODAPÉ ===================== */
+.footer-page {
+  flex-shrink: 0; margin-top: 3px; border-top: 1px solid #ccc;
+  display: flex; justify-content: space-between; align-items: flex-end;
+  font-size: 8px; color: #666; padding-top: 2px;
+}
+.page-num { font-weight: 700; font-size: 11px; color: #7a4e10; }
+
+/* ===================== CRÉDITOS / LEITURAS ===================== */
+.credits-bar {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4px;
+  font-size: 7.5px; color: #444; border-top: 1px solid #ccc;
+  margin-top: 3px; padding-top: 2px;
+}
+.credits-bar p { font-size: 7.5px; margin: 0.5px 0; text-align: left; }
+.cnbb-footer { text-align: right; font-size: 7.5px; color: #444; margin-top: 2px; }
+.leituras-semana { font-size: 8px; margin-top: 4px; border-top: 1px solid #c8a860; padding-top: 2px; }
+.leituras-semana .ls-title { font-weight: 700; font-size: 8px; color: #7a4e10; margin-bottom: 1px; }
+.leituras-semana p { font-size: 7.8px; color: #333; margin: 1px 0; text-align: left; }
+
+/* ===================== EDIÇÃO ===================== */
+[contenteditable] { outline: none; cursor: text; }
+[contenteditable]:hover { background: rgba(212,168,75,0.12); border-radius: 2px; }
+[contenteditable]:focus { background: rgba(255,253,230,0.9); border-radius: 2px; outline: 1px dashed #c8a860; }
+
+/* ===================== PRINT ===================== */
+@media print {
+  #toolbar { display: none !important; }
+  body { background: none; padding-top: 0; }
+  #pages-container { margin: 0; padding: 0; gap: 0; display: block; }
+  .spread-label { display: none; }
+  .spread { display: flex; width: 420mm; height: 297mm; page-break-after: always; box-shadow: none; }
+  .page { width: 210mm; height: 297mm; box-shadow: none; flex-shrink: 0; }
+  .spread .page:first-child { border-right: 0.5px solid #ccc; }
+  [contenteditable]:hover, [contenteditable]:focus { background: none !important; outline: none !important; }
+}
+@page { size: A3 landscape; margin: 0; }
+</style>
+</head>
+<body>
+
+<!-- ==================== TOOLBAR ==================== -->
+<div id="toolbar">
+  <span class="tb-label">⛪ Igreja em Oração</span>
+  <div class="tb-sep"></div>
+
+  <button class="tb-btn" onclick="fmt('bold')" title="Negrito"><b>N</b></button>
+  <button class="tb-btn" onclick="fmt('italic')" title="Itálico"><i>I</i></button>
+  <button class="tb-btn" onclick="fmt('underline')" title="Sublinhado"><u>S</u></button>
+
+  <div class="tb-sep"></div>
+
+  <select class="tb-select" onchange="fmt('fontName',this.value)" title="Fonte">
+    <option value="">Fonte</option>
+    <option value="Source Sans 3">Source Sans 3</option>
+    <option value="Libre Baskerville">Baskerville</option>
+    <option value="Arial">Arial</option>
+    <option value="Georgia">Georgia</option>
+    <option value="Times New Roman">Times</option>
+    <option value="Courier New">Courier</option>
+  </select>
+
+  <select class="tb-select" onchange="fmt('fontSize',this.value)" title="Tamanho">
+    <option value="">Tam.</option>
+    <option value="1">6px</option>
+    <option value="2">8px</option>
+    <option value="3">10px</option>
+    <option value="4">12px</option>
+    <option value="5">14px</option>
+    <option value="6">18px</option>
+    <option value="7">24px</option>
+  </select>
+
+  <div class="tb-sep"></div>
+
+  <div class="tb-color-wrap">
+    <span>Texto</span>
+    <input type="color" id="cor-texto" value="#000000"
+      onchange="fmt('foreColor',this.value)" title="Cor do texto">
+  </div>
+
+  <div class="tb-color-wrap">
+    <span>Fundo</span>
+    <input type="color" id="cor-fundo" value="#ffffff"
+      onchange="fmt('hiliteColor',this.value)" title="Cor de fundo / preenchimento">
+  </div>
+
+  <div class="tb-sep"></div>
+
+  <!-- Cor do título de seção selecionado -->
+  <div class="tb-color-wrap" title="Cor do título de seção clicado">
+    <span>Caixa</span>
+    <input type="color" id="cor-caixa" value="#d4a84b"
+      onchange="colorirCaixa(this.value)">
+  </div>
+
+  <div class="tb-sep"></div>
+
+  <button class="tb-btn" onclick="fmt('justifyLeft')" title="Alinhar esquerda">⬛◁</button>
+  <button class="tb-btn" onclick="fmt('justifyCenter')" title="Centralizar">≡</button>
+  <button class="tb-btn" onclick="fmt('justifyFull')" title="Justificar">▤</button>
+
+  <div class="tb-sep"></div>
+
+  <button class="tb-btn tb-print" onclick="window.print()">🖨 Imprimir / PDF</button>
+</div>
+
+<!-- ==================== PÁGINAS ==================== -->
+<div id="pages-container">
+
+<div class="spread-label">🖨 FRENTE — Spread 1: Página 4 (esq) | Página 1 (dir)</div>
+<div class="spread" id="spread1">
+
+<!-- ══════════════ PÁGINA 4 ══════════════ -->
+<div class="page" id="page4">
+  <div class="page-body">
+    <div class="cols2">
+
+      <!-- COL 1 -->
+      <div class="col">
+
+        <div class="section">
+          <div class="section-title" contenteditable="true">21. Depois da Comunhão</div>
+          <p><span class="cp">CP.</span> <span contenteditable="true">Oremos.</span> <span class="instrucao">(silêncio)</span> <span contenteditable="true">Fortificados por este alimento sagrado, nós vos damos graças, ó Deus, e imploramos a vossa clemência; fazei que perseverem na sinceridade do vosso amor aqueles que fortalecestes pela infusão do Espírito Santo. Por Cristo, nosso Senhor.</span></p>
+          <p><span class="t">T.</span> <span class="bold" contenteditable="true">Amém.</span></p>
+        </div>
+
+        <div class="section">
+          <div class="section-title" contenteditable="true">Ritos Finais</div>
+        </div>
+
+        <div class="section">
+          <div class="section-title" contenteditable="true">22. Breves Avisos <span class="instrucao">(caso necessário)</span></div>
+        </div>
+
+        <div class="section">
+          <div class="section-title" contenteditable="true">23. Bênção Final <span class="small-ref">(MR, p. 532, n. 7)</span></div>
+          <p><span class="cp">CP.</span> <span contenteditable="true">O Senhor esteja convosco.</span></p>
+          <p><span class="t">T.</span> <span class="bold" contenteditable="true">Ele está no meio de nós.</span></p>
+          <p><span class="cp">CP.</span> <span contenteditable="true">Iluminai, ó Deus de bondade, a vossa família, para que, abraçando a vossa vontade, possa viver fazendo o bem. Por Cristo, nosso Senhor.</span></p>
+          <p><span class="t">T.</span> <span class="bold" contenteditable="true">Amém.</span></p>
+          <p><span class="cp">CP.</span> <span contenteditable="true">Abençoe-vos Deus todo-poderoso, Pai e Filho ✠ e Espírito Santo.</span></p>
+          <p><span class="t">T.</span> <span class="bold" contenteditable="true">Amém.</span></p>
+          <p><span class="cp">CP.</span> <span contenteditable="true">Glorificai o Senhor com vossa vida; ide em paz e o Senhor vos acompanhe.</span></p>
+          <p><span class="t">T.</span> <span class="bold" contenteditable="true">Graças a Deus.</span></p>
+        </div>
+
+        <div class="section">
+          <div class="section-title" contenteditable="true">24. Canto Final <span class="instrucao">(a ser escolhido pela equipe de canto)</span></div>
+        </div>
+
+        <div class="section">
+          <div class="sugestoes-title" contenteditable="true">Sugestões para a Equipe de Celebração</div>
+          <div class="qr-row">
+            <div class="qr-text">
+              <p contenteditable="true">1. Para ter acesso às cifras e aos áudios dos cantos: aponte a câmera do seu celular para o QR Code ao lado ou acesse: edicoescnbb.blog.</p>
+            </div>
+            <div class="qr-box">QR</div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="medita-title" contenteditable="true">Meditando a Palavra de Deus</div>
+          <div class="medita-autor" contenteditable="true">Pe. João Batista Gomes</div>
+          <p contenteditable="true">O Reino de Deus é como uma festa de casamento. As dez virgens, caracterizadas como cinco previdentes e cinco imprevidentes, representam a Igreja, as comunidades cristãs, cada cristão, em síntese, todos que caminham para o encontro com o "esperado" Noivo, Jesus. O noivo da parábola chegou de repente, assim como inesperadamente Jesus voltará. As mulheres dormiam e, quando acordaram, as previdentes entraram para a festa e as imprevidentes, por estarem despreparadas, correram em busca do óleo, mas era tarde demais, pois a porta da festa se fechou. No momento da chegada do noivo, ninguém estará em condição de ajudar ao outro, pois a questão é entre cada virgem e o noivo, entre cada pessoa e o Senhor.</p>
+        </div>
+
+      </div><!-- /col1 -->
+
+      <!-- COL 2 -->
+      <div class="col">
+
+        <p contenteditable="true">As pessoas devem se ajudar, corrigir umas às outras, alertar quanto à preparação, enquanto estão a caminho. O óleo representa as boas obras realizadas durante a vida, a capacidade de perdoar, de acolher o próximo, o espírito e a prática da solidariedade e da misericórdia. São essas atitudes que vão preenchendo a vasilha com óleo suficiente para a espera e para a festa nupcial. A comunidade cristã deve viver neste mundo esperando vigilante o retorno do Senhor, pois ninguém sabe o momento de seu retorno (Mt 24,36). É tarefa cristã ajudar uns aos outros enquanto possível, fazendo a vontade do Pai, preparando as lâmpadas e o óleo do amor suficiente para o encontro pessoal com o Senhor.</p>
+
+        <div class="cnbb-brasil-box">
+          <div class="cnbb-brasil-title" contenteditable="true">Igreja no Brasil</div>
+          <div class="cnbb-brasil-sub" contenteditable="true">Viver e saber esperar com esperança</div>
+          <p contenteditable="true">O Senhor Jesus, no texto do Evangelho escrito por São Mateus (Mt 25,1-13), nos fala do final dos tempos, da sua vinda definitiva e de uma espera indefinida. O mais importante é que tudo depende de quanto cada um está preparado para essa longa espera. Por isso a importância de nos mantermos vigilantes, porque não sabemos a hora em que o Senhor nos chamará. O estar vigilantes é um modo que temos para viver a nossa fé de forma responsável e responder ao convite das núpcias que a sabedoria de Deus nos oferece. O cristão, na sua peregrinação para a Casa do Pai, jamais poderá deixar de estar atento, de lutar e resistir àquilo que o impede de acolher o Senhor em sua vida ou que é um empecilho à vivência dos valores do Evangelho. Quando, no nosso dia a dia, sentimos sede de Deus, é algo muito positivo, porque significa que não nos resignamos à indiferença, à apatia ou ao desânimo. Somente quem tem essa sede de Deus pode vigiar ou ficar à espera indefinida da sua vinda, lembrando que é o amor que nos mantém acordados e vigilantes. Tenhamos presente que a Palavra de Deus não esmorece, nem perde a sua força diante de tantos sinais de morte que marcam a nossa sociedade. (...)</p>
+          <p class="instrucao" contenteditable="true">(Leia na íntegra: https://www.cnbb.org.br/viver-e-saber-esperar-com-esperanca/)</p>
+          <div class="dom-jose" contenteditable="true">Dom José Gislon</div>
+          <div class="dom-jose-cargo" contenteditable="true">Bispo de Caxias do Sul-RS</div>
+        </div>
+
+        <div class="leituras-semana">
+          <div class="ls-title" contenteditable="true">Leituras da Semana (32ª Semana do Tempo Comum)</div>
+          <p><span style="color:#b0302a;font-weight:700;">Seg.:</span> <span contenteditable="true">Sb 1,1-7; Sl 138(139),1-3.4-6.7-8.9-10 (R. 24b); Lc 17,1-6</span></p>
+          <p><span style="color:#b0302a;font-weight:700;">Ter.:</span> <span contenteditable="true">Sb 2,23-3,9; Sl 33(34),2-3.16-17.18-19 (R. 2a); Lc 17,7-10</span></p>
+          <p><span style="color:#b0302a;font-weight:700;">Qua.:</span> <span contenteditable="true">Sb 6,1-11; Sl 81(82),3-4.6-7 (R. 8a); Lc 17,11-19</span></p>
+          <p><span style="color:#b0302a;font-weight:700;">Qui.:</span> <span contenteditable="true">Sb 7,22-8,1; Sl 118(119),89.90.91 (R. 89a); Lc 17,20-25</span></p>
+          <p><span style="color:#b0302a;font-weight:700;">Sex.:</span> <span contenteditable="true">Santa Isabel da Hungria – Sb 13,1-9; Sl 18A(19),2-3.4-5 (R. 2a); Lc 17,26-37</span></p>
+          <p><span style="color:#b0302a;font-weight:700;">Sáb.:</span> <span contenteditable="true">Sb 18,14-16;19,6-9; Sl 104(105),2-3.36-37 (R. 5a); Lc 18,1-8</span></p>
+          <p><span style="color:#b0302a;font-weight:700;">Dom.:</span> <span contenteditable="true">33º Domingo: Pr 31,10-13.19-20.30-31; 1Ts 5,1-6; Mt 25,14-30</span></p>
+        </div>
+
+ 
