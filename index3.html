@@ -156,7 +156,12 @@ p {
 
 /* ===================== ILUSTRAÇÃO ===================== */
 .illus-wrapper { text-align: center; margin-bottom: 4px; width: 100%; }
-.illus-img-real { width: 100%; max-height: 88px; object-fit: contain; display: block; }
+.illus-img-real{
+   width:100%;
+   min-height:180px;
+   display:block;
+   object-fit:contain;
+}
 .illus-placeholder {
   border: 1px dashed #c8a860; height: 88px;
   display: flex; align-items: center; justify-content: center;
@@ -494,9 +499,8 @@ p {
       <!-- COL 3 -->
       <div class="col">
         <div class="illus-wrapper">
-          <img src="imagens/corpo.png" alt="Ilustração do domingo" class="illus-img-real"
-            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="illus-placeholder">Ilustração (corpo.png)</div>
+         <img src="imagens/corpo.png"
+     class="illus-img-real">
         </div>
 
         <div class="section">
